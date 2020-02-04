@@ -1,0 +1,24 @@
+{
+    "name": "vue-template",
+    "version": "1.0.0",
+	"private": true,
+    "main": "index.js",
+    "author": "Ray-Eldath <ray.eldath@outlook.com>",
+    "license": "Apache-2.0",
+    "scripts": {
+        "build": "parcel build index.html",
+		"clean": "rm -r dist",
+        "dev": "parcel serve index.html"
+    },
+    "dependencies": {
+        "vue": "^2.6.11",
+        "vue-hot-reload-api": "^2.3.4",
+        "vue-router": "^3.1.3"
+    },
+    "devDependencies": {
+        "@vue/component-compiler-utils": "^3.0.2",
+        "cssnano": "^4.1.10",
+        "sass": "^1.23.7",
+        "vue-template-compiler": "^2.6.11"
+    }
+}
