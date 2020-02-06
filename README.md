@@ -1,8 +1,6 @@
-# vue-template
+# Ongrid
 
-A template for Vue.js, vue-router, SASS and Prettier. Use single-file componment.
-
-Note that webfont is installed, see `index.html`.
+Front-end part of Project Offgrid.
 
  - Install `parcel-bundle` globally: `yarn global add parcel-bundler`
  - `yarn install`

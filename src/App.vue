@@ -1,8 +1,8 @@
 <template>
-    <router-view />
+    <router-view/>
 </template>
 
 <style lang="sass">
-body
-    font-family: 'Noto Sans SC', sans-serif
+    body
+        font-family: 'Noto Sans SC', sans-serif
 </style>
