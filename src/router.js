@@ -1,10 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
 
-import "dayjs/locale/zh-cn";
-import dayjs from "dayjs";
-dayjs.locale("zh-cn");
-
 import "heyui/themes/index.less";
 import HeyUI from "heyui";
 

@@ -6,24 +6,31 @@
                     <h1 class="title">登录</h1>
                     <div class="h-input h-input-prefix-icon">
                         <input
+                            :disabled="disabled"
                             type="text"
-                            v-model="model.name"
+                            v-model="email"
                             placeholder="邮箱"
                         />
                         <i class="h-icon ion-md-mail"></i>
                     </div>
                     <div class="h-input h-input-prefix-icon">
                         <input
-                            type="text"
-                            v-model="model.password"
+                            :disabled="disabled"
+                            type="password"
+                            v-model="password"
                             placeholder="密码"
                         />
                         <i class="h-icon ion-md-keypad"></i>
                     </div>
 
-                    <Button class="login" color="primary">登录</Button>
+                    <Button
+                        class="login"
+                        color="primary"
+                        :loading="isLoading"
+                        @click="submit"
+                        >登录</Button
+                    >
                     <div class="bottom">
-                        <p class="forget"><a href="http://">忘记密码？</a></p>
                         <p class="register">
                             没有账户？请<a
                                 href="http://google.com"
@@ -32,7 +39,9 @@
                                 >在这里注册。</a
                             >
                         </p>
+                        <p class="forget"><a href="http://">忘记密码？</a></p>
                     </div>
+                    <span class="logout" @click="logout">强制登出</span>
                 </section>
             </div>
         </div>
@@ -51,7 +60,13 @@
     left: $pad
     bottom: $pad
     margin-bottom: -4px
-    color: rgba(255, 255, 255, 0.3)
+    color: white
+    opacity: .4
+
+    &:hover
+        cursor: default
+        opacity: 1
+        transition: opacity 600ms ease
 
     div
         margin-top: -3px
@@ -79,26 +94,41 @@
         flex-direction: column
         align-items: center
         justify-content: center
+
         .login
             width: 60%
+
             .h-input
                 margin-bottom: 1.2em
                 display: block
                 zoom: 1.3
+
                 .h-icon
                     opacity: .3
+
             .login
                 margin-top: 10px
                 margin-bottom: 5px
                 width: 100%
                 font-size: 20px
+
             .bottom
+                display: flex
+                justify-content: space-between
+
                 .forget
                     color: darken(white, 30)
-                    float: right
+
                 .register
                     color: darken(white, 60)
-                    float: left
+
+            .logout
+                float: right
+                font-size: 10px
+                margin-top: 1.2em
+                color: darken(white, 20)
+                cursor: pointer
+
             .title
                 font-size: 4em
                 font-weight: bold
@@ -121,31 +151,49 @@ body
 export default {
     data() {
         return {
-            isLoading: false,
-            model: {
-                name: "",
-                password: ""
-            },
-            validationRules: {
-                required: ["name", "password"]
-            }
+            email: "alpha@beta.omega",
+            password: "123",
+            disabled: false,
+            isLoading: false
         };
     },
     methods: {
-        submit() {
+        async submit() {
             this.isLoading = true;
-            let validResult = this.$refs.form.valid();
-            if (validResult.result) {
-                this.$Message("验证成功");
-                setTimeout(() => {
-                    this.isLoading = false;
-                }, 1000);
-            } else {
-                this.isLoading = false;
+            this.disabled = true;
+            if (this.email.length === 0 || this.password.length === 0)
+                this.$Message["error"]("错误：用户名或密码不能为空");
+            else {
+                const selfI = this;
+
+                await this.$api.post(
+                    "login",
+                    { email: this.email, password: this.password },
+                    {
+                        success(r) {
+                            let self = r.self;
+
+                            selfI.$store.commit("login", {
+                                token: r.bearer,
+                                expire: r.expire_in,
+                                id: self.id,
+                                username: self.username,
+                                email: self.email,
+                                role: self.role,
+                                permissions: self.permissions,
+                                avatarUrl: self.avatar_url
+                            });
+                        }
+                    }
+                );
             }
+
+            this.isLoading = false;
+            this.disabled = false;
         },
-        reset() {
-            this.$refs.form.resetValid();
+        logout() {
+            this.$store.commit("logout");
+            console.log("forced logout");
         }
     }
 };

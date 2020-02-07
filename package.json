@@ -1,25 +1,31 @@
 {
-  "name": "ongrid",
-  "version": "1.0.0",
-  "private": true,
-  "main": "index.js",
-  "author": "Ray-Eldath <ray.eldath@outlook.com>",
-  "scripts": {
-    "build": "parcel build index.html",
-    "clean": "rm -r dist",
-    "dev": "parcel serve index.html"
-  },
-  "dependencies": {
-    "dayjs": "^1.8.20",
-    "heyui": "^1.25.1",
-    "vue": "^2.6.11",
-    "vue-hot-reload-api": "^2.3.4",
-    "vue-router": "^3.1.5"
-  },
-  "devDependencies": {
-    "@vue/component-compiler-utils": "^3.1.1",
-    "cssnano": "^4.1.10",
-    "sass": "^1.25.0",
-    "vue-template-compiler": "^2.6.11"
-  }
+    "name": "ongrid",
+    "version": "1.0.0",
+    "private": true,
+    "main": "index.js",
+    "author": "Ray-Eldath <ray.eldath@outlook.com>",
+    "scripts": {
+        "build": "parcel build index.html",
+        "clean": "rm -r dist",
+        "dev": "parcel serve index.html"
+    },
+    "dependencies": {
+        "@babel/runtime-corejs2": "^7.8.4",
+        "axios": "^0.19.2",
+        "dayjs": "^1.8.20",
+        "heyui": "^1.25.1",
+        "vue": "^2.6.11",
+        "vue-hot-reload-api": "^2.3.4",
+        "vue-router": "^3.1.5",
+        "vuex": "^3.1.2",
+        "vuex-persistedstate": "^2.7.1"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.0.0-0",
+        "@babel/plugin-transform-runtime": "^7.8.3",
+        "@vue/component-compiler-utils": "^3.1.1",
+        "cssnano": "^4.1.10",
+        "sass": "^1.25.0",
+        "vue-template-compiler": "^2.6.11"
+    }
 }
