@@ -11,6 +11,7 @@ const api = axios.create({
 
 api.interceptors.request.use(
     function(cfg) {
+        store.commit("touchToken");
         const token = store.state.auth.authToken;
 
         if (token) cfg.headers.Authorization = `Bearer ${token}`;
@@ -24,34 +25,50 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
     response => {
-        let s = response.config.success;
-        if (typeof s === "function") s(response.data);
+        let success = response.config.success;
+        if (typeof success === "function") success(response.data);
     },
     e => globalApiErrorHandler(e)
 );
 
 function globalApiErrorHandler(e) {
-    let data = e.response.data;
+    console.error(e);
 
-    if (!data) heyui.$Message["error"]("Oops! 好像网络有问题？", 5000);
+    if (!e.response || !e.response.data)
+        heyui.$Message["error"]("Oops! 好像网络有问题？", 5000);
     else {
+        let data = e.response.data;
+
         if (e.status === 500)
             heyui.$Notice["error"]({
                 title: "糟糕！发生了内部错误",
-                content: `绝大多数情况下，这不是您的原因。请向您组织的 Offgrid 管理员报告此问题，这有助于我们改善用户体验。\n${data}`,
+                content: `绝大多数情况下，这不是您的原因。请向您组织的 Offgrid 管理员报告此问题，这有助于我们改善用户体验。<br/> <code>${data}</code>`,
                 timeout: 0
             });
         else {
-            console.debug("Server response with: ");
-            console.debug(data);
+            if (data.code === 302) state.commit("logout");
+            let duration = e.response.config.duration;
+            console.log(e.response.config);
+
+            if (duration === undefined) {
+                console.log("set!");
+                duration = 7000;
+            }
+
+            let error = errors[data.code];
+            let diagnose =
+                error === undefined
+                    ? `<br/> ${data.message}`
+                    : `${errors[data.code]}<br/>（${data.message}）`;
 
             heyui.$Message["error"](
-                `Oops! 发生请求时错误：${errors[data.code]}<br/>（${
-                    data.message
-                }）`,
-                7000
+                `Oops! 发生错误：${diagnose}`,
+                duration
             );
         }
+
+        let failed = e.response.config.failed;
+        if (typeof failed === "function") failed(data);
     }
 }
 
