@@ -10,6 +10,8 @@ Vue.use(HeyUI);
 import Index from "./page/HelloWorld";
 import Login from "./page/Login";
 
+const Register = () => import("./page/Register");
+
 const router = {
     routes: [
         {
@@ -21,6 +23,11 @@ const router = {
             path: "/login",
             name: "Login",
             component: Login
+        },
+        {
+            path: "/register",
+            name: "Register",
+            component: Register
         }
     ],
     mode: "history"

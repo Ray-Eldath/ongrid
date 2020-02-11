@@ -46,14 +46,16 @@ function globalApiErrorHandler(e) {
                 timeout: 0
             });
         else {
-            if (data.code === 302) state.commit("logout");
-            let duration = e.response.config.duration;
-            console.log(e.response.config);
+            let failed = config.failed;
+            if (typeof failed === "function") failed(data);
 
-            if (duration === undefined) {
-                console.log("set!");
-                duration = 7000;
-            }
+            let config = e.response.config;
+            if (config.suppress) return;
+
+            if (data.code === 302) state.commit("logout");
+            let duration = config.duration;
+
+            if (duration === undefined) duration = 7000;
 
             let error = errors[data.code];
             let diagnose =
@@ -61,14 +63,8 @@ function globalApiErrorHandler(e) {
                     ? `<br/> ${data.message}`
                     : `${errors[data.code]}<br/>（${data.message}）`;
 
-            heyui.$Message["error"](
-                `Oops! 发生错误：${diagnose}`,
-                duration
-            );
+            heyui.$Message["error"](`Oops! 发生错误：${diagnose}`, duration);
         }
-
-        let failed = e.response.config.failed;
-        if (typeof failed === "function") failed(data);
     }
 }
 

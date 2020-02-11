@@ -32,11 +32,8 @@
                     >
                     <div class="bottom">
                         <p class="register">
-                            没有账户？请<a
-                                href="http://google.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                >在这里注册。</a
+                            没有账户？请<router-link to="/register"
+                                >在这里注册。</router-link
                             >
                         </p>
                         <p class="forget"><a href="http://">忘记密码？</a></p>
@@ -123,11 +120,15 @@
                     color: darken(white, 60)
 
             .logout
-                float: right
-                font-size: 10px
-                margin-top: 1.2em
-                color: darken(white, 20)
+                float: left
+                margin-top: 10px
+                color: black
+                opacity: 0.2
                 cursor: pointer
+
+                &:hover
+                    opacity: 0.4
+                    transition: opacity 500ms ease
 
             .title
                 font-size: 4em
@@ -195,7 +196,7 @@ export default {
         },
         logout() {
             this.$store.commit("logout");
-            console.log("forced logout");
+            this.$Message("成功清除登录状态。");
         }
     }
 };
