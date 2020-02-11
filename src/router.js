@@ -11,6 +11,7 @@ import Index from "./page/HelloWorld";
 import Login from "./page/Login";
 
 const Register = () => import("./page/Register");
+const Confirm = () => import("./page/Confirm");
 
 const router = {
     routes: [
@@ -28,6 +29,11 @@ const router = {
             path: "/register",
             name: "Register",
             component: Register
+        },
+        {
+            path: "/confirm/:token",
+            name: "Confirm",
+            component: Confirm
         }
     ],
     mode: "history"
