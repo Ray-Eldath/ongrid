@@ -13,7 +13,13 @@
                 <i class="h-icon ion-md-mail"></i>
             </div>
             <div class="button-outer">
-                <Button class="button" color="primary" icon="ion-md-send"
+                <Button
+                    class="button"
+                    color="primary"
+                    icon="ion-md-send"
+                    :disabled="disabled"
+                    @click="submit"
+                    @keydown.enter="submit"
                     >发送验证邮件</Button
                 >
             </div>
@@ -58,6 +64,30 @@ export default {
             email: "",
             disabled: false
         };
+    },
+    methods: {
+        submit() {
+            if (this.email.length === 0) {
+                this.$Message["error"]("错误：邮箱不能为空");
+                return;
+            }
+
+            const self = this;
+            this.$api.post(
+                "/register",
+                { email: this.email },
+                {
+                    success() {
+                        this.disabled = true;
+                        self.$Message["info"](
+                            "提交成功！请查看您的收件箱并遵照其中的指示执行下一步操作。感谢您注册 Offgrid！",
+                            0
+                        );
+                    },
+                    duration: 0
+                }
+            );
+        }
     },
     components: { PanelPage, Step }
 };

@@ -46,15 +46,16 @@ function globalApiErrorHandler(e) {
                 timeout: 0
             });
         else {
-            let failed = config.failed;
+            let config = e.response.config;
+
+            let failed = config.rejected;
             if (typeof failed === "function") failed(data);
 
-            let config = e.response.config;
             if (config.suppress) return;
 
             if (data.code === 302) state.commit("logout");
-            let duration = config.duration;
 
+            let duration = config.duration;
             if (duration === undefined) duration = 7000;
 
             let error = errors[data.code];

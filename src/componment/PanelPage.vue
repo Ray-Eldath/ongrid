@@ -27,6 +27,7 @@
     .h-panel
         z-index: 2
         border: solid darken(white, 5) 1px
+        border-radius: 20px
         transition: 200ms ease-in-out
 
         @media (max-width: 1200px)

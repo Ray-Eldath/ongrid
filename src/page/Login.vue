@@ -59,11 +59,11 @@
     margin-bottom: -4px
     color: white
     opacity: .4
+    transition: 600ms linear
 
     &:hover
         cursor: default
-        opacity: 1
-        transition: opacity 600ms ease
+        opacity: 0.8
 
     div
         margin-top: -3px
@@ -125,10 +125,10 @@
                 color: black
                 opacity: 0.2
                 cursor: pointer
+                transition: 500ms linear
 
                 &:hover
                     opacity: 0.4
-                    transition: opacity 500ms ease
 
             .title
                 font-size: 4em

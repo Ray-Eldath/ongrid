@@ -1,6 +1,6 @@
 <template>
     <PanelPage title="注册账户：设置用户名和密码" height="50%">
-        <Step :step="1"></Step>
+        <Step :step="step"></Step>
 
         <Form
             class="form"
@@ -10,17 +10,26 @@
             :model="model"
         >
             <FormItem label="用户名" prop="username">
-                <input type="text" v-model="model.username" />
+                <input
+                    type="text"
+                    v-model="model.username"
+                    :disabled="disabled"
+                />
             </FormItem>
             <FormItem class="password-item" label="密码" prop="password">
-                <input type="password" v-model="model.password" />
+                <input
+                    type="password"
+                    v-model="model.password"
+                    :disabled="disabled"
+                />
             </FormItem>
             <FormItem class="button-item">
                 <Button
                     class="button"
                     circle
                     color="primary"
-                    icon="ion-md-send"
+                    icon="ion-md-cloud-upload"
+                    :disabled="disabled"
                     @click="submit"
                     >提交</Button
                 >
@@ -61,6 +70,9 @@ export default {
                 username: "",
                 password: ""
             },
+            step: 1,
+            token: this.$route.params.token,
+            disabled: false,
             validationRules: {
                 rules: {
                     username: {
@@ -76,9 +88,39 @@ export default {
             }
         };
     },
+    async mounted() {
+        const self = this;
+
+        await this.$api.get(`/confirm/${this.token}`, {
+            failed() {
+                self.disabled = true;
+            },
+            duration: 0
+        });
+    },
     methods: {
         submit() {
-            this.$refs.form.valid();
+            if (this.$refs.form.valid().result) {
+                const self = this;
+                this.$api.post(
+                    `/confirm/${this.token}`,
+                    {
+                        username: this.model.username,
+                        password: this.model.password
+                    },
+                    {
+                        success() {
+                            self.disabled = true;
+                            self.$Message["info"](
+                                "提交成功！您的注册申请现正等待管理员审核并分配权限。",
+                                0
+                            );
+                            self.step = 2;
+                        },
+                        duration: 0
+                    }
+                );
+            }
         }
     },
     components: { PanelPage, Step }
