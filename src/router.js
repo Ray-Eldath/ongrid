@@ -14,31 +14,37 @@ import Login from "./page/Login";
 
 const Register = () => import("./page/Register");
 const Confirm = () => import("./page/Confirm");
+const UserApplication = () => import("./page/UserApplication");
 
 const routes = {
     routes: [
         {
             path: "/",
-            name: "Home",
+            name: "home",
             component: Home
         },
         {
             path: "/login",
-            name: "Login",
+            name: "login",
             component: Login,
             meta: { plain: true }
         },
         {
             path: "/register",
-            name: "Register",
+            name: "register",
             component: Register,
             meta: { plain: true }
         },
         {
             path: "/confirm/:token",
-            name: "Confirm",
+            name: "confirm",
             component: Confirm,
             meta: { plain: true }
+        },
+        {
+            path: "/applications",
+            name: "application",
+            component: UserApplication
         }
     ],
     mode: "history"
@@ -46,16 +52,16 @@ const routes = {
 
 let router = new Router(routes);
 
-// router.beforeEach((to, from, next) => {
-//     if (to.meta.plain) next();
-//     else {
-//         if (!store.state.auth.authed) {
-//             HeyUI.$Message["error"]("请先登录！");
-//             next({
-//                 path: "/login"
-//             });
-//         } else next();
-//     }
-// });
+router.beforeEach((to, from, next) => {
+    if (to.meta.plain) next();
+    else {
+        if (!store.state.auth.authed) {
+            HeyUI.$Message["error"]("请先登录！");
+            next({
+                path: `/login?redirectTo=${from.name}`
+            });
+        } else next();
+    }
+});
 
 export default router;

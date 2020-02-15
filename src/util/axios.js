@@ -34,15 +34,15 @@ api.interceptors.response.use(
 function globalApiErrorHandler(e) {
     console.error(e);
 
-    if (!e.response || !e.response.data)
-        heyui.$Message["error"]("Oops! 好像网络有问题？", 5000);
+    if (!e.response) heyui.$Message["error"]("Oops! 好像网络有问题？", 5000);
     else {
+        let status = e.response.status;
         let data = e.response.data;
 
-        if (e.status === 500)
+        if (status === 500)
             heyui.$Notice["error"]({
                 title: "糟糕！发生了内部错误",
-                content: `绝大多数情况下，这不是您的原因。请向您组织的 Offgrid 管理员报告此问题，这有助于我们改善用户体验。<br/> <code>${data}</code>`,
+                content: `绝大多数情况下，这不是您的原因。请向您组织的 Offgrid 管理员报告此问题，这有助于我们改善用户体验。<br/> <code>Server returns ${status} with data: <${data}></code>`,
                 timeout: 0
             });
         else {
@@ -53,7 +53,7 @@ function globalApiErrorHandler(e) {
 
             if (config.suppress) return;
 
-            if (data.code === 302) state.commit("logout");
+            if (data.code === 302) store.commit("logout");
 
             let duration = config.duration;
             if (duration === undefined) duration = 7000;

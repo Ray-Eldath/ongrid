@@ -186,6 +186,11 @@ export default {
                                 permissions: self.permissions,
                                 avatarUrl: self.avatar_url
                             });
+
+                            let redirect = selfI.$route.query.redirectTo;
+                            if (selfI.$route.query && redirect) {
+                                selfI.$router.push({ name: redirect });
+                            }
                         }
                     }
                 );

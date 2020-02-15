@@ -6,7 +6,7 @@
             class="form"
             ref="form"
             :labelWidth="65"
-            :rules="validationRules"
+            :rules="validation"
             :model="model"
         >
             <FormItem label="用户名" prop="username">
@@ -73,7 +73,7 @@ export default {
             step: 1,
             token: this.$route.params.token,
             disabled: false,
-            validationRules: {
+            validation: {
                 rules: {
                     username: {
                         maxLen: 16,

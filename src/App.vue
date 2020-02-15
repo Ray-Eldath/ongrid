@@ -14,10 +14,11 @@
             </div>
             <Menu
                 style="margin-top: 20px;"
-                class="h-menu-dark"
+                ref="menu"
                 :datas="menuDatas"
                 :inlineCollapsed="siderCollapsed"
                 :accordion="true"
+                @select="select"
             ></Menu>
         </Sider>
         <Layout :headerFixed="true">
@@ -32,10 +33,11 @@
                     ></Button>
                 </div>
             </HHeader>
-            <Content style="padding: 0px 30px;">
+            <Content style="padding: 0px 30px">
                 <div class="view">
                     <router-view />
                 </div>
+                <div class="bottom-line"></div>
                 <HFooter class="footer text-center">
                     ©. 2019 - 2020. IllegalSkillsExcepion.
                     <a
@@ -43,19 +45,34 @@
                         target="_blank"
                         rel="noopener noreferrer"
                         >Ray Eldath</a
-                    >
+                    >.
                 </HFooter>
             </Content>
         </Layout>
     </Layout>
 </template>
 
-<style lang="sass">
+<style lang="sass" scoped>
 body
     font-family: 'Noto Sans SC', sans-serif
 
+    .bottom-line
+        margin-top: 2em
+
     .root
         height: 100%
+
+        .h-layout-header-fixed
+            overflow-y: scroll
+
+        .h-layout
+            background: #f0f2f5
+
+            .view
+                background: white
+                $padding: 32px
+                padding: $padding
+                margin-top: $padding
 
         .sider
             .logo
@@ -71,26 +88,25 @@ body
                     font-family: serif
                     color: white
                     opacity: 0.8
-                    transition: 500ms ease-in-out
+                    transition: 500ms linear
 
                     &:hover
                         opacity: 1
                         cursor: default
-
-        .footer
-            padding: 1em
 </style>
 
 <script>
 export default {
+    methods: {
+        select(data) {
+            this.$router.push({ name: data.key });
+        }
+    },
     data() {
-        console.log(this.$store.state.auth.authed);
-
         return {
             siderCollapsed: false,
             menuDatas: [
                 { title: "主页", key: "home", icon: "ion-md-home" },
-                { title: "用户管理", key: "search", icon: "ion-md-people" },
                 {
                     title: "运行管理",
                     key: "_top_operation",
@@ -109,7 +125,6 @@ export default {
                         { title: "运行图", key: "graph", icon: "ion-md-swap" }
                     ]
                 },
-                { title: "结果查询", key: "result", icon: "ion-md-list-box" },
                 {
                     title: "账户管理",
                     key: "_top_users",
@@ -117,21 +132,31 @@ export default {
                     children: [
                         {
                             title: "所有账户",
-                            key: "users",
+                            key: "user",
                             icon: "ion-md-contacts"
                         },
                         {
                             title: "注册申请",
-                            key: "applications",
+                            key: "application",
                             icon: "ion-md-paper"
                         }
                     ]
+                },
+                {
+                    title: "结果查询",
+                    key: "result",
+                    icon: "ion-md-list-box"
                 },
                 { title: "系统管理", key: "metrics", icon: "ion-md-analytics" }
             ]
         };
     },
     watch: {
+        $route() {
+            if (this.$route.name) {
+                this.$refs.menu.select(this.$route.name);
+            }
+        },
         siderFixed() {
             if (!this.siderFixed) {
                 this.headerFixed = false;
