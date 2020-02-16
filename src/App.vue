@@ -39,7 +39,7 @@
                 </div>
                 <div class="bottom-line"></div>
                 <HFooter class="footer text-center">
-                    ©. 2019 - 2020. IllegalSkillsExcepion.
+                    ©. 2019 - {{ year }}. IllegalSkillsExcepion.
                     <a
                         href="https://github.com/Ray-Eldath"
                         target="_blank"
@@ -70,6 +70,7 @@ body
 
             .view
                 background: white
+                border-radius: 2px
                 $padding: 32px
                 padding: $padding
                 margin-top: $padding
@@ -93,9 +94,14 @@ body
                     &:hover
                         opacity: 1
                         cursor: default
+
+        .footer
+            margin-bottom: 1em
 </style>
 
 <script>
+import dayjs from "dayjs";
+
 export default {
     methods: {
         select(data) {
@@ -153,14 +159,15 @@ export default {
     },
     watch: {
         $route() {
-            if (this.$route.name) {
-                this.$refs.menu.select(this.$route.name);
-            }
+            if (this.$route.name) this.$refs.menu.select(this.$route.name);
         },
         siderFixed() {
-            if (!this.siderFixed) {
-                this.headerFixed = false;
-            }
+            if (!this.siderFixed) this.headerFixed = false;
+        }
+    },
+    computed: {
+        year() {
+            return dayjs().year();
         }
     }
 };

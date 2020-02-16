@@ -187,9 +187,9 @@ export default {
                                 avatarUrl: self.avatar_url
                             });
 
-                            let redirect = selfI.$route.query.redirectTo;
-                            if (selfI.$route.query && redirect) {
-                                selfI.$router.push({ name: redirect });
+                            let back = selfI.$route.query.back;
+                            if (selfI.$route.query && back === "true") {
+                                selfI.$router.back();
                             }
                         }
                     }

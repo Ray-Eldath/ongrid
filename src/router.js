@@ -57,9 +57,9 @@ router.beforeEach((to, from, next) => {
     else {
         if (!store.state.auth.authed) {
             HeyUI.$Message["error"]("请先登录！");
-            next({
-                path: `/login?redirectTo=${from.name}`
-            });
+            let path = "/login";
+            if (!to.meta.plain) path += `?back=true`;
+            next(path);
         } else next();
     }
 });
