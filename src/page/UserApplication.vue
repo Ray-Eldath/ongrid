@@ -85,9 +85,10 @@
                         ></Button>
                         <Poptip
                             :content="poptip.reject"
-                            @content="rejectApplication(data)"
+                            @confirm="rejectApplication(data)"
                         >
                             <Button
+                                style="margin-left: 2px"
                                 text-color="red"
                                 icon="ion-md-close"
                                 v-tooltip="true"
@@ -98,7 +99,7 @@
                     <Poptip
                         v-else
                         :content="poptip.delete"
-                        @click="deleteApplication(data)"
+                        @confirm="deleteApplication(data)"
                     >
                         <Button
                             text-color="gray"
@@ -178,6 +179,28 @@ export default {
                 },
                 hasCloseIcon: true
             });
+        },
+        rejectApplication(data) {
+            const self = this;
+            this.$api.get(`/application/${data.id}/reject`, {
+                success() {
+                    self.refresh();
+                    self.$Message(
+                        `已拒绝邮箱 ${data.email} 关联的注册申请，该邮箱的所有后续请求将被直接拒绝。`
+                    );
+                }
+            });
+        },
+        deleteApplication(data) {
+            const self = this;
+            this.$api.get(`/application/${data.id}/reset`, {
+                success() {
+                    self.refresh();
+                    self.$Message(
+                        `已重置邮箱 ${data.email} 的注册申请状态，对该邮箱的注册封锁现已解除。`
+                    );
+                }
+            });
         }
     },
     async mounted() {
@@ -205,7 +228,7 @@ export default {
                 reject:
                     "由于安全策略，一旦某邮箱对应的注册请求被拒绝，该邮箱的后续请求均将被直接拒绝。是否继续？",
                 delete:
-                    "由于安全策略，一旦某邮箱对应的注册请求被拒绝，该邮箱的后续请求均将被直接拒绝。删除已拒绝的申请将解除这一锁定。是否继续？"
+                    "由于安全策略，一旦某邮箱对应的注册请求被拒绝，该邮箱的后续请求均将被直接拒绝。删除已拒绝的申请将解除这一封锁。是否继续？"
             },
             loading: false
         };
