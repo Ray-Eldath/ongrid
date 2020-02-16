@@ -103,6 +103,19 @@ body
 import dayjs from "dayjs";
 
 export default {
+    mounted() {
+        let meta = this.$store.state.meta;
+
+        if (!meta.permissionsInitialized || !meta.rolesInitialized) {
+            const self = this;
+            this.$api.get("/meta/roles", {
+                success(data) {
+                    self.$store.commit("setPermissions", data);
+                    self.$store.commit("setRoles", data);
+                }
+            });
+        }
+    },
     methods: {
         select(data) {
             this.$router.push({ name: data.key });

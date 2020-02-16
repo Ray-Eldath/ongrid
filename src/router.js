@@ -14,6 +14,7 @@ import Login from "./page/Login";
 
 const Register = () => import("./page/Register");
 const Confirm = () => import("./page/Confirm");
+const User = () => import("./page/User");
 const UserApplication = () => import("./page/UserApplication");
 
 const routes = {
@@ -40,6 +41,11 @@ const routes = {
             name: "confirm",
             component: Confirm,
             meta: { plain: true }
+        },
+        {
+            path: "/users",
+            name: "user",
+            component: User
         },
         {
             path: "/applications",

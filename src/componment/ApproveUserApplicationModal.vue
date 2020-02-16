@@ -12,13 +12,7 @@
                 :model="model"
             >
                 <FormItem label="用户身份" prop="role">
-                    <Select
-                        keyName="id"
-                        titleName="name"
-                        :deletable="false"
-                        v-model="model.role"
-                        :datas="roles.map(e => e.role)"
-                    ></Select>
+                    <RoleSelector v-model="roleObject"></RoleSelector>
                 </FormItem>
                 <!-- TODO: extra permissions，有时间就做..... 懒得弄就算了吧（唉我好垃圾QAQ） -->
             </Form>
@@ -69,22 +63,10 @@
 </style>
 
 <script>
+import RoleSelector from "../componment/RoleSelector";
 import { mapState } from "vuex";
 
 export default {
-    mounted() {
-        let meta = this.$store.state.meta;
-
-        if (!meta.permissionsInitialized || !meta.rolesInitialized) {
-            const self = this;
-            this.$api.get("/meta/roles", {
-                success(data) {
-                    self.$store.commit("setPermissions", data);
-                    self.$store.commit("setRoles", data);
-                }
-            });
-        }
-    },
     data() {
         return {
             model: {
@@ -92,13 +74,11 @@ export default {
             },
             validation: {
                 required: ["role"]
-            }
+            },
+            roleObject: null
         };
     },
     computed: {
-        roleObject() {
-            return this.roles.find(e => e.role.id === this.model.role);
-        },
         permission() {
             return this.roleObject.default_permissions
                 .map(e => e.name)
@@ -108,6 +88,11 @@ export default {
             permissions: state => state.meta.permissions,
             roles: state => state.meta.roles
         })
+    },
+    watch: {
+        roleObject(value) {
+            Vue.$set(this.model, "role", value.role.id);
+        }
     },
     methods: {
         submit() {
@@ -139,6 +124,7 @@ export default {
             type: Object,
             required: true
         }
-    }
+    },
+    components: { RoleSelector }
 };
 </script>
