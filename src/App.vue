@@ -32,6 +32,9 @@
                         @click="siderCollapsed = !siderCollapsed"
                     ></Button>
                 </div>
+                <div>
+                    <Button @click="clearMeta">清除元数据缓存</Button>
+                </div>
             </HHeader>
             <Content style="padding: 0px 30px">
                 <div class="view">
@@ -110,7 +113,10 @@ export default {
             const self = this;
             this.$api.get("/meta/roles", {
                 success(data) {
-                    self.$store.commit("setPermissions", data);
+                    self.$store.commit("setPermissions", {
+                        treePermissions: data.tree_permissions,
+                        flattenPermissions: data.flatten_permissions
+                    });
                     self.$store.commit("setRoles", data);
                 }
             });
@@ -118,7 +124,12 @@ export default {
     },
     methods: {
         select(data) {
-            this.$router.push({ name: data.key });
+            if (this.$route.name !== data.key)
+                this.$router.push({ name: data.key });
+        },
+        clearMeta() {
+            this.$store.commit("clearMeta");
+            this.$Message("成功清除元数据缓存。");
         }
     },
     data() {

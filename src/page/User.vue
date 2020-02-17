@@ -4,7 +4,7 @@
             class="filter"
             ref="filter"
             mode="threecolumn"
-            :labelWidth="65"
+            :labelWidth="80"
             :validOnChange="false"
             :model="filter"
         >
@@ -26,6 +26,24 @@
                     :disabled="loading"
                     @keydown.enter="refresh"
                 />
+            </FormItem>
+            <FormItem label="用户身份" prop="role">
+                <RoleSelector
+                    v-model="filter.roleObject"
+                    planceholder="依用户身份筛选，留空则不筛选"
+                    nullOptionText="不按用户身份筛选"
+                ></RoleSelector>
+            </FormItem>
+            <FormItem label="用户权限" prop="permission">
+                <Select
+                    keyName="id"
+                    titleName="name"
+                    :filterable="true"
+                    placeholder="依用户权限筛选，留空则不筛选"
+                    nullOptionText="不按用户权限筛选"
+                    v-model="filter.permission"
+                    :datas="flattenPermissions"
+                ></Select>
             </FormItem>
             <FormItem single>
                 <ButtonGroup style="margin-top: -2px">
@@ -74,16 +92,23 @@
 </template>
 
 <script>
+import RoleSelector from "../componment/RoleSelector";
 import { mapState } from "vuex";
 
 export default {
     methods: {
-        async refresh() {}
+        async refresh() {},
+        submitFilter() {},
+        clearFilter() {
+            this.$set(this.filter, "username", "");
+            this.$set(this.filter, "email", "");
+            this.$set(this.filter, "roleObject", null);
+            this.$set(this.filter, "username", null);
+        }
     },
     computed: {
         ...mapState({
-            permissions: state => state.meta.permissions,
-            roles: state => state.meta.roles
+            flattenPermissions: state => state.meta.flattenPermissions
         })
     },
     data() {
@@ -106,10 +131,13 @@ export default {
             },
             filter: {
                 username: "",
-                email: ""
+                email: "",
+                roleObject: null,
+                permission: null
             },
             loading: false
         };
-    }
+    },
+    components: { RoleSelector }
 };
 </script>

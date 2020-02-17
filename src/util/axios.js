@@ -53,7 +53,10 @@ function globalApiErrorHandler(e) {
 
             if (config.suppress) return;
 
-            if (data.code === 302) store.commit("logout");
+            if (data.code === 302) {
+                store.commit("logout");
+                location.reload();
+            }
 
             let duration = config.duration;
             if (duration === undefined) duration = 7000;

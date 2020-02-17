@@ -11,18 +11,23 @@
                 :rules="validation"
                 :model="model"
             >
-                <FormItem label="用户身份" prop="role">
-                    <RoleSelector v-model="roleObject"></RoleSelector>
+                <FormItem label="用户身份" prop="roleObject">
+                    <RoleSelector
+                        v-model="model.roleObject"
+                        :deletable="false"
+                    ></RoleSelector>
                 </FormItem>
                 <!-- TODO: extra permissions，有时间就做..... 懒得弄就算了吧（唉我好垃圾QAQ） -->
             </Form>
-            <div v-if="model.role != null" style="max-width: 600px">
+            <div v-if="model.roleObject != null" style="max-width: 600px">
                 <p>
                     将创建用户
                     <span class="green-color">{{ application.username }}</span>
                     <span style="opacity: 0.7">（{{ application.email }}）</span
                     >，并分配身份
-                    <span class="green-color">{{ roleObject.role.name }}</span
+                    <span class="green-color">{{
+                        model.roleObject.role.name
+                    }}</span
                     >。
                 </p>
                 <p>
@@ -31,7 +36,7 @@
                     }}</span>
                 </p>
                 <p
-                    v-if="roleObject.role.name === 'Root'"
+                    v-if="model.roleObject.role.name === 'Root'"
                     class="red-color root-warning"
                 >
                     <i class="ion-md-warning"></i>
@@ -70,28 +75,18 @@ export default {
     data() {
         return {
             model: {
-                role: null
+                roleObject: null
             },
             validation: {
-                required: ["role"]
-            },
-            roleObject: null
+                required: ["roleObject"]
+            }
         };
     },
     computed: {
         permission() {
-            return this.roleObject.default_permissions
+            return this.model.roleObject.default_permissions
                 .map(e => e.name)
                 .join(", ");
-        },
-        ...mapState({
-            permissions: state => state.meta.permissions,
-            roles: state => state.meta.roles
-        })
-    },
-    watch: {
-        roleObject(value) {
-            Vue.$set(this.model, "role", value.role.id);
         }
     },
     methods: {
@@ -101,7 +96,7 @@ export default {
                 this.$api.post(
                     `/application/${this.application.id}/approve`,
                     {
-                        role_id: this.roleObject.role.id
+                        role_id: this.model.roleObject.role.id
                     },
                     {
                         success() {

@@ -4,7 +4,7 @@
             class="filter"
             ref="filter"
             mode="threecolumn"
-            :labelWidth="65"
+            :labelWidth="70"
             :validOnChange="false"
             :model="filter"
         >
