@@ -30,7 +30,7 @@
             <FormItem single>
                 <ButtonGroup style="margin-top: -2px">
                     <Button
-                        icon="ion-md-funnel"
+                        icon="mdi mdi-filter"
                         :loading="loading"
                         @click="submitFilter"
                         >应用筛选</Button
@@ -44,7 +44,7 @@
                 </ButtonGroup>
                 <Button
                     style="margin-left: 1em"
-                    icon="ion-md-refresh"
+                    icon="mdi mdi-refresh"
                     v-tooltip="true"
                     content="刷新数据"
                     placement="bottom"
@@ -78,7 +78,7 @@
                     <template v-if="data.is_application_pending">
                         <Button
                             text-color="green"
-                            icon="ion-md-checkmark"
+                            icon="mdi mdi-check"
                             v-tooltip="true"
                             content="批准注册"
                             @click="openApprove(data)"
@@ -90,7 +90,7 @@
                             <Button
                                 style="margin-left: 2px"
                                 text-color="red"
-                                icon="ion-md-close"
+                                icon="mdi mdi-close"
                                 v-tooltip="true"
                                 content="拒绝注册"
                             ></Button>
@@ -104,7 +104,7 @@
                         <Button
                             text-color="gray"
                             style="opacity: 0.7"
-                            icon="ion-md-trash"
+                            icon="mdi mdi-delete"
                             v-tooltip="true"
                             content="删除该注册申请"
                         ></Button>

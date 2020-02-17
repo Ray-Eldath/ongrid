@@ -10,13 +10,13 @@
                     v-model="email"
                     placeholder="邮箱"
                 />
-                <i class="h-icon ion-md-mail"></i>
+                <i class="h-icon mdi mdi-email"></i>
             </div>
             <div class="button-outer">
                 <Button
                     class="button"
                     color="primary"
-                    icon="ion-md-send"
+                    icon="mdi mdi-email-send"
                     :disabled="disabled"
                     @click="submit"
                     @keydown.enter="submit"

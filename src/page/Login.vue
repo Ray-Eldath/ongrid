@@ -11,7 +11,7 @@
                             v-model="email"
                             placeholder="邮箱"
                         />
-                        <i class="h-icon ion-md-mail"></i>
+                        <i class="h-icon mdi mdi-email"></i>
                     </div>
                     <div class="h-input h-input-prefix-icon">
                         <input
@@ -20,7 +20,7 @@
                             v-model="password"
                             placeholder="密码"
                         />
-                        <i class="h-icon ion-md-keypad"></i>
+                        <i class="h-icon mdi mdi-textbox-password"></i>
                     </div>
 
                     <Button

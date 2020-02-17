@@ -28,7 +28,7 @@
                     class="button"
                     circle
                     color="primary"
-                    icon="ion-md-cloud-upload"
+                    icon="mdi mdi-cloud-upload"
                     :disabled="disabled"
                     @click="submit"
                     >提交</Button

@@ -25,7 +25,7 @@
             <HHeader theme="white">
                 <div style="width:100px; float:left;">
                     <Button
-                        icon="ion-md-menu"
+                        icon="mdi mdi-menu"
                         size="l"
                         noBorder
                         style="font-size: 20px"
@@ -136,48 +136,48 @@ export default {
         return {
             siderCollapsed: false,
             menuDatas: [
-                { title: "主页", key: "home", icon: "ion-md-home" },
+                { title: "主页", key: "home", icon: "mdi mdi-home" },
                 {
                     title: "运行管理",
                     key: "_top_operation",
-                    icon: "ion-md-build",
+                    icon: "mdi mdi-wrench",
                     children: [
                         {
                             title: "数据源注册表",
                             key: "providers",
-                            icon: "ion-md-log-in"
+                            icon: "mdi mdi-import"
                         },
                         {
                             title: "模型注册表",
                             key: "models",
-                            icon: "ion-md-log-out"
+                            icon: "mdi mdi-export"
                         },
-                        { title: "运行图", key: "graph", icon: "ion-md-swap" }
+                        { title: "运行图", key: "graph", icon:"mdi mdi-swap-horizontal-bold" }
                     ]
                 },
                 {
                     title: "账户管理",
                     key: "_top_users",
-                    icon: "ion-md-people",
+                    icon: "mdi mdi-account-supervisor",
                     children: [
                         {
                             title: "所有账户",
                             key: "user",
-                            icon: "ion-md-contacts"
+                            icon: "mdi mdi-account-box-multiple"
                         },
                         {
                             title: "注册申请",
                             key: "application",
-                            icon: "ion-md-paper"
+                            icon: "mdi mdi-clipboard-text-multiple"
                         }
                     ]
                 },
                 {
                     title: "结果查询",
                     key: "result",
-                    icon: "ion-md-list-box"
+                    icon: "mdi mdi-file-document-box-search"
                 },
-                { title: "系统管理", key: "metrics", icon: "ion-md-analytics" }
+                { title: "系统管理", key: "metrics", icon: "mdi mdi-view-dashboard" }
             ]
         };
     },

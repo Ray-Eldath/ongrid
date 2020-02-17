@@ -5,6 +5,7 @@
         :deletable="deletable"
         :placeholder="planceholder"
         :nullOptionText="nullOptionText"
+        :disabled="disabled"
         v-model="roleId"
         :datas="roles.map(e => e.role)"
     ></Select>
@@ -21,6 +22,10 @@ export default {
         },
         planceholder: String,
         nullOptionText: String,
+        disabled: {
+            type: Boolean,
+            default: false
+        },
         value: {
             type: Object,
             default: null

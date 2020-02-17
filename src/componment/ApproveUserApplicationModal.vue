@@ -39,7 +39,7 @@
                     v-if="model.roleObject.role.name === 'Root'"
                     class="red-color root-warning"
                 >
-                    <i class="ion-md-warning"></i>
+                    <i class="mdi mdi-alert"></i>
                     <span style="font-weight: bold">警告：</span>Root
                     账户将具有所有权限，我们极其不建议新建多于一个的 Root
                     账户。请确认您确实了解新建 Root
@@ -48,7 +48,7 @@
             </div>
         </div>
         <footer class="h-modal-footer">
-            <Button color="primary" icon="ion-md-person-add" @click="submit"
+            <Button color="primary" icon="mdi mdi-account-plus" @click="submit"
                 >提交</Button
             >
             <Button text @click="cancel">取消</Button>

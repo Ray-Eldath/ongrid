@@ -9,19 +9,19 @@ export default {
             data: [
                 {
                     title: "验证邮箱",
-                    icon: "ion-md-mail-open"
+                    icon: "mdi mdi-email-open"
                 },
                 {
                     title: "填写信息",
-                    icon: "ion-md-list"
+                    icon: "mdi mdi-format-list-numbered"
                 },
                 {
                     title: "等待审核",
-                    icon: "ion-md-square-outline"
+                    icon: "mdi mdi-progress-clock"
                 },
                 {
                     title: "注册成功",
-                    icon: "ion-md-done-all"
+                    icon: "mdi mdi-check-all"
                 }
             ]
         };

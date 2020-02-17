@@ -27,14 +27,15 @@
                     @keydown.enter="refresh"
                 />
             </FormItem>
-            <FormItem label="用户身份" prop="role">
+            <FormItem label="身份" prop="role">
                 <RoleSelector
                     v-model="filter.roleObject"
                     planceholder="依用户身份筛选，留空则不筛选"
                     nullOptionText="不按用户身份筛选"
+                    :disabled="loading"
                 ></RoleSelector>
             </FormItem>
-            <FormItem label="用户权限" prop="permission">
+            <FormItem label="权限" prop="permission">
                 <Select
                     keyName="id"
                     titleName="name"
@@ -42,13 +43,14 @@
                     placeholder="依用户权限筛选，留空则不筛选"
                     nullOptionText="不按用户权限筛选"
                     v-model="filter.permission"
+                    :disabled="loading"
                     :datas="flattenPermissions"
                 ></Select>
             </FormItem>
             <FormItem single>
                 <ButtonGroup style="margin-top: -2px">
                     <Button
-                        icon="ion-md-funnel"
+                        icon="mdi mdi-filter"
                         :loading="loading"
                         @click="submitFilter"
                         >应用筛选</Button
@@ -62,7 +64,7 @@
                 </ButtonGroup>
                 <Button
                     style="margin-left: 1em"
-                    icon="ion-md-refresh"
+                    icon="mdi mdi-refresh"
                     v-tooltip="true"
                     content="刷新数据"
                     placement="bottom"
@@ -80,6 +82,19 @@
             :border="false"
             :stripe="true"
         >
+            <TableItem title="ID" prop="id" :width="200"></TableItem>
+            <TableItem title="用户名" prop="username"></TableItem>
+            <TableItem title="邮箱" prop="email"></TableItem>
+            <TableItem title="身份">
+                <template v-slot="{ data }">
+                    {{ data.role.name }}
+                </template>
+            </TableItem>
+            <TableItem title="操作">
+                <template v-slot="{ data }">
+                    <Button icon="mdi mdi-account-edit"></Button>
+                </template>
+            </TableItem>
         </Table>
         <Pagination
             class="pagination"
