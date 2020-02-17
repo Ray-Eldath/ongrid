@@ -88,7 +88,7 @@
                             @confirm="rejectApplication(data)"
                         >
                             <Button
-                                style="margin-left: 2px"
+                                style="margin-left: 4px"
                                 text-color="red"
                                 icon="mdi mdi-close"
                                 v-tooltip="true"

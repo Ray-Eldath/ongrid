@@ -36,6 +36,12 @@
                 ></RoleSelector>
             </FormItem>
             <FormItem label="权限" prop="permission">
+                <template v-slot:label>
+                    <Helper
+                        content="权限筛选的优先级高于身份筛选：设置权限将会返回所有具有该权限的用户，无论其身份是否满足。"
+                    ></Helper>
+                    权限
+                </template>
                 <Select
                     keyName="id"
                     titleName="name"
@@ -92,12 +98,26 @@
             </TableItem>
             <TableItem title="操作">
                 <template v-slot="{ data }">
-                    <Button icon="mdi mdi-account-edit"></Button>
+                    <Button
+                        text-color="yellow"
+                        icon="mdi mdi-account-edit"
+                        v-tooltip="true"
+                        content="编辑用户"
+                        @click="editUser(data)"
+                    ></Button>
+                    <Button
+                        text-color="red"
+                        icon="mdi mdi-account-remove"
+                        v-tooltip="true"
+                        content="删除用户"
+                        @click="removeUser(data)"
+                    ></Button>
                 </template>
             </TableItem>
         </Table>
         <Pagination
             class="pagination"
+            style="margin-top: 2em"
             v-model="pagination"
             align="center"
             :sizes="[15, 20, 50, 100]"
@@ -108,23 +128,57 @@
 
 <script>
 import RoleSelector from "../componment/RoleSelector";
+import Helper from "../componment/Helper";
 import { mapState } from "vuex";
 
 export default {
     methods: {
-        async refresh() {},
-        submitFilter() {},
+        async refresh() {
+            this.loading = true;
+
+            let params = {
+                pre_page: this.pagination.size,
+                page: this.pagination.page
+            };
+            if (this.filter.email.length !== 0)
+                params.email = this.filter.email;
+            if (this.filter.username.length !== 0)
+                params.username = this.filter.username;
+            if (this.filter.permission && this.filter.permission.length !== 0)
+                params.permission = this.filter.permission;
+            if (this.filter.roleObject)
+                params.role = this.filter.roleObject.role.id;
+
+            const self = this;
+            await this.$api.get("/users", {
+                success(returns) {
+                    self.pagination.total = returns.total;
+                    self.entries = returns.result;
+
+                    self.loading = false;
+                },
+                params: params
+            });
+        },
+        async submitFilter() {
+            await this.refresh();
+        },
         clearFilter() {
             this.$set(this.filter, "username", "");
             this.$set(this.filter, "email", "");
             this.$set(this.filter, "roleObject", null);
             this.$set(this.filter, "username", null);
-        }
+        },
+        editUser(user) {},
+        removeUser(user) {}
     },
     computed: {
         ...mapState({
             flattenPermissions: state => state.meta.flattenPermissions
         })
+    },
+    async mounted() {
+        await this.refresh();
     },
     data() {
         return {
@@ -147,12 +201,12 @@ export default {
             filter: {
                 username: "",
                 email: "",
-                roleObject: null,
-                permission: null
+                permission: "",
+                roleObject: null
             },
             loading: false
         };
     },
-    components: { RoleSelector }
+    components: { RoleSelector, Helper }
 };
 </script>
