@@ -22,7 +22,7 @@
             ></Menu>
         </Sider>
         <Layout :headerFixed="true">
-            <HHeader theme="white">
+            <HHeader class="header" theme="white">
                 <div style="width:100px; float:left;">
                     <Button
                         icon="mdi mdi-menu"
@@ -32,8 +32,75 @@
                         @click="siderCollapsed = !siderCollapsed"
                     ></Button>
                 </div>
-                <div>
-                    <Button @click="clearMeta">清除元数据缓存</Button>
+                <div class="user">
+                    <DropdownCustom
+                        ref="userDropdown"
+                        class-name="h-text-dropdown"
+                        placement="bottom-end"
+                    >
+                        <Avatar
+                            :src="self.avatarUrl"
+                            :width="40"
+                            :distance="10"
+                        >
+                            <span class="username">{{ self.username }}</span>
+                        </Avatar>
+
+                        <div slot="content">
+                            <Avatar
+                                class="dropdown-top"
+                                v-padding="30"
+                                :src="self.avatarUrl"
+                                :width="80"
+                                :distance="20"
+                            >
+                                <div style="height: 100%">
+                                    <p class="username">{{ self.username }}</p>
+                                    <p class="role">
+                                        {{ self.role.name }}
+                                    </p>
+                                </div>
+                            </Avatar>
+                            <Row class="bottom">
+                                <Cell
+                                    width="8"
+                                    class="text-center"
+                                    style="border-right:1px solid #EEE"
+                                >
+                                    <Button
+                                        @click="logout"
+                                        text-color="primary"
+                                        :no-border="true"
+                                        style="font-size: 15px"
+                                        >个人信息</Button
+                                    >
+                                </Cell>
+                                <Cell
+                                    width="8"
+                                    class="text-center"
+                                    style="border-right:1px solid #EEE"
+                                >
+                                    <Button
+                                        @click="logout"
+                                        text-color="gray"
+                                        :no-border="true"
+                                        style="font-size: 15px"
+                                        >高级操作</Button
+                                    >
+                                </Cell>
+                                <Cell width="8" class="text-center">
+                                    <Button
+                                        @click="logout"
+                                        text-color="primary"
+                                        :no-border="true"
+                                        style="font-size: 15px"
+                                        >注销</Button
+                                    >
+                                </Cell>
+                                <!-- <Button @click="clearMeta" text-color="primary" :no-border="true">清除元数据缓存</!-->
+                            </Row>
+                        </div>
+                    </DropdownCustom>
                 </div>
             </HHeader>
             <Content style="padding: 0px 30px">
@@ -59,11 +126,35 @@
 body
     font-family: 'Noto Sans SC', sans-serif
 
+    .h-dropdowncustom-group
+        .username
+            padding-top: 12px
+            margin: 0
+            font-size: 24px
+
+        .role
+            font-size: 15px
+            margin: 0
+            margin-top: -2px
+
+        .bottom
+            line-height: 40px
+            border-top: 1px solid #EEE
+
     .bottom-line
         margin-top: 2em
 
     .root
         height: 100%
+
+        .header
+            .user
+                float: right
+                margin-right: 20px
+
+                span.username
+                    font-size: 16px
+                    transition: 200ms ease-out
 
         .h-layout-header-fixed
             overflow-y: scroll
@@ -103,6 +194,7 @@ body
 </style>
 
 <script>
+import { mapState } from "vuex";
 import dayjs from "dayjs";
 
 export default {
@@ -196,7 +288,10 @@ export default {
     computed: {
         year() {
             return dayjs().year();
-        }
+        },
+        ...mapState({
+            self: state => state.auth
+        })
     }
 };
 </script>
