@@ -18,6 +18,17 @@
                     @keydown.enter="refresh"
                 />
             </FormItem>
+            <FormItem label="状态" prop="state">
+                <Select
+                    keyName="id"
+                    titleName="name"
+                    placeholder="依状态筛选，留空则不筛选"
+                    nullOptionText="不按状态筛选"
+                    v-model="filter.state"
+                    :disabled="loading"
+                    :datas="userStates"
+                ></Select>
+            </FormItem>
             <FormItem label="用户名" prop="username">
                 <input
                     type="text"
@@ -88,10 +99,17 @@
             :border="false"
             :stripe="true"
         >
-            <TableItem title="ID" prop="id" :width="200"></TableItem>
+            <TableItem title="ID" prop="id" :width="120"></TableItem>
+            <TableItem title="状态" :width="120">
+                <template v-slot="{ data }">
+                    <span class="gray-color" v-if="data.state === 0">正常</span>
+                    <span class="red-color" v-else-if="data.state === 1"
+                        >禁止登录</span
+                    >
+                </template>
+            </TableItem>
             <TableItem title="用户名" prop="username"></TableItem>
             <TableItem title="邮箱" prop="email"></TableItem>
-            <TableItem title="状态" prop="state"></TableItem>
             <TableItem title="身份">
                 <template v-slot="{ data }">
                     {{ data.role.name }}
@@ -107,6 +125,15 @@
                         @click="editUser(data)"
                     ></Button>
 
+                    <Button
+                        style="margin-left: 4px"
+                        text-color="red"
+                        icon="mdi mdi-account-remove"
+                        v-tooltip="true"
+                        content="删除用户"
+                        @click="removeUser(data)"
+                    ></Button>
+
                     <Poptip
                         style="margin-left: 4px"
                         v-if="data.state === 0"
@@ -114,7 +141,7 @@
                         @confirm="banUser(data)"
                     >
                         <Button
-                            text-color="red"
+                            text-color="gray"
                             icon="mdi mdi-account-cancel"
                             v-tooltip="true"
                             content="封禁用户"
@@ -127,21 +154,12 @@
                         @confirm="unbanUser(data)"
                     >
                         <Button
-                            text-color="red"
+                            text-color=""
                             icon="mdi mdi-account-check"
                             v-tooltip="true"
                             content="解除封禁"
                         ></Button>
                     </Poptip>
-
-                    <Button
-                        style="margin-left: 4px"
-                        text-color="red"
-                        icon="mdi mdi-account-remove"
-                        v-tooltip="true"
-                        content="删除用户"
-                        @click="removeUser(data)"
-                    ></Button>
                 </template>
             </TableItem>
         </Table>
@@ -178,6 +196,7 @@ export default {
                 params.permission = this.filter.permission;
             if (this.filter.roleObject)
                 params.role = this.filter.roleObject.role.id;
+            if (this.filter.state) params.state = this.filter.state;
 
             const self = this;
             await this.$api.get("/users", {
@@ -221,7 +240,8 @@ export default {
     computed: {
         ...mapState({
             flattenPermissions: state =>
-                state.meta.userModel["flatten_permissions"]
+                state.meta.userModel["flatten_permissions"],
+            userStates: state => state.meta.userModel["user_states"]
         })
     },
     async mounted() {
@@ -248,6 +268,7 @@ export default {
             filter: {
                 username: "",
                 email: "",
+                state: null,
                 permission: "",
                 roleObject: null
             },
