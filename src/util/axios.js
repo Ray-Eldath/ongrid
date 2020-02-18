@@ -53,7 +53,7 @@ function globalApiErrorHandler(e) {
 
             if (config.suppress) return;
 
-            if (data.code === 302) {
+            if (data.code === 302 && store.state.auth.authed) {
                 store.commit("logout");
                 location.reload();
             }

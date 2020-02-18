@@ -91,6 +91,7 @@
             <TableItem title="ID" prop="id" :width="200"></TableItem>
             <TableItem title="用户名" prop="username"></TableItem>
             <TableItem title="邮箱" prop="email"></TableItem>
+            <TableItem title="状态" prop="state"></TableItem>
             <TableItem title="身份">
                 <template v-slot="{ data }">
                     {{ data.role.name }}
@@ -105,7 +106,36 @@
                         content="编辑用户"
                         @click="editUser(data)"
                     ></Button>
+
+                    <Poptip
+                        style="margin-left: 4px"
+                        v-if="data.state === 0"
+                        content="确认禁止该用户登录？"
+                        @confirm="banUser(data)"
+                    >
+                        <Button
+                            text-color="red"
+                            icon="mdi mdi-account-cancel"
+                            v-tooltip="true"
+                            content="封禁用户"
+                        ></Button>
+                    </Poptip>
+                    <Poptip
+                        style="margin-left: 4px"
+                        v-else-if="data.state === 1"
+                        content="确认允许该用户登录？"
+                        @confirm="unbanUser(data)"
+                    >
+                        <Button
+                            text-color="red"
+                            icon="mdi mdi-account-check"
+                            v-tooltip="true"
+                            content="解除封禁"
+                        ></Button>
+                    </Poptip>
+
                     <Button
+                        style="margin-left: 4px"
                         text-color="red"
                         icon="mdi mdi-account-remove"
                         v-tooltip="true"
@@ -170,11 +200,28 @@ export default {
             this.$set(this.filter, "username", null);
         },
         editUser(user) {},
-        removeUser(user) {}
+        removeUser(user) {},
+        async banUser(user) {
+            const self = this;
+            await this.$api.get(`/users/${user.id}/ban`, {
+                success() {
+                    self.refresh();
+                }
+            });
+        },
+        async unbanUser(user) {
+            const self = this;
+            await this.$api.get(`/users/${user.id}/unban`, {
+                success() {
+                    self.refresh();
+                }
+            });
+        }
     },
     computed: {
         ...mapState({
-            flattenPermissions: state => state.meta.flattenPermissions
+            flattenPermissions: state =>
+                state.meta.userModel["flatten_permissions"]
         })
     },
     async mounted() {

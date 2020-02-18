@@ -111,13 +111,9 @@ export default {
 
         if (!meta.permissionsInitialized || !meta.rolesInitialized) {
             const self = this;
-            this.$api.get("/meta/roles", {
+            this.$api.get("/meta/model/user", {
                 success(data) {
-                    self.$store.commit("setPermissions", {
-                        treePermissions: data.tree_permissions,
-                        flattenPermissions: data.flatten_permissions
-                    });
-                    self.$store.commit("setRoles", data);
+                    self.$store.commit("setUserModel", data);
                 }
             });
         }
@@ -152,7 +148,11 @@ export default {
                             key: "models",
                             icon: "mdi mdi-export"
                         },
-                        { title: "运行图", key: "graph", icon:"mdi mdi-swap-horizontal-bold" }
+                        {
+                            title: "运行图",
+                            key: "graph",
+                            icon: "mdi mdi-swap-horizontal-bold"
+                        }
                     ]
                 },
                 {
@@ -177,7 +177,11 @@ export default {
                     key: "result",
                     icon: "mdi mdi-file-document-box-search"
                 },
-                { title: "系统管理", key: "metrics", icon: "mdi mdi-view-dashboard" }
+                {
+                    title: "系统管理",
+                    key: "metrics",
+                    icon: "mdi mdi-view-dashboard"
+                }
             ]
         };
     },

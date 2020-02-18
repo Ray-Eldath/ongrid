@@ -31,7 +31,7 @@ export default {
             default: null
         }
     },
-    computed: mapState({ roles: state => state.meta.roles }),
+    computed: mapState({ roles: state => state.meta.userModel.roles }),
     watch: {
         value(v) {
             this.$set(this.$data, "roleId", v === null ? null : v.role.id);
