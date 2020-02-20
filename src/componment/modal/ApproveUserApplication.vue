@@ -11,7 +11,7 @@
                 :rules="validation"
                 :model="model"
             >
-                <FormItem label="用户身份" prop="roleObject">
+                <FormItem label="账户身份" prop="roleObject">
                     <RoleSelector
                         v-model="model.roleObject"
                         :deletable="false"
@@ -21,7 +21,7 @@
             </Form>
             <div v-if="model.roleObject != null" style="max-width: 600px">
                 <p>
-                    将创建用户
+                    将创建账户
                     <span class="green-color">{{ application.username }}</span>
                     <span style="opacity: 0.7">（{{ application.email }}）</span
                     >，并分配身份
@@ -35,11 +35,16 @@
                         permission
                     }}</span>
                 </p>
+                <p style="margin-top: 1.6em">
+                    <i class="mdi mdi-information-outline"></i>
+                    <span style="font-weight: bold">注意：</span>
+                    由于安全策略，不能创建具有您具有您所不具有的权限的账户。
+                </p>
                 <p
                     v-if="model.roleObject.role.name === 'Root'"
                     class="red-color root-warning"
                 >
-                    <i class="mdi mdi-alert"></i>
+                    <i class="mdi mdi-alert-outline"></i>
                     <span style="font-weight: bold">警告：</span>Root
                     账户将具有所有权限，我们极其不建议新建多于一个的 Root
                     账户。请确认您确实了解新建 Root
@@ -68,7 +73,7 @@
 </style>
 
 <script>
-import RoleSelector from "../componment/RoleSelector";
+import RoleSelector from "../RoleSelector";
 import { mapState } from "vuex";
 
 export default {
@@ -101,7 +106,7 @@ export default {
                     {
                         success() {
                             self.$Message(
-                                `成功新建用户 ${self.application.username}`
+                                `成功新建账户 ${self.application.username}`
                             );
                             self.$emit("applicationSubmitted", self.model);
                             self.$emit("close");

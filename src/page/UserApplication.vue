@@ -129,7 +129,7 @@
 </style>
 
 <script>
-import ApproveModal from "../componment/ApproveUserApplicationModal";
+import ApproveModal from "../componment/modal/ApproveUserApplication";
 
 export default {
     methods: {
@@ -177,7 +177,8 @@ export default {
                         self.refresh();
                     }
                 },
-                hasCloseIcon: true
+                hasCloseIcon: true,
+                hasDivider: true
             });
         },
         rejectApplication(data) {

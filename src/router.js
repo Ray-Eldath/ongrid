@@ -5,6 +5,7 @@ import store from "./store";
 
 import "heyui/themes/index.less";
 import HeyUI from "heyui";
+HeyUI.config("modal.hasDivider", true);
 
 Vue.use(Router);
 Vue.use(HeyUI);

@@ -49,9 +49,9 @@
                         <div slot="content">
                             <Avatar
                                 class="dropdown-top"
-                                v-padding="30"
+                                v-padding="40"
                                 :src="self.avatarUrl"
-                                :width="80"
+                                :width="90"
                                 :distance="20"
                             >
                                 <div style="height: 100%">
@@ -63,12 +63,13 @@
                             </Avatar>
                             <Row class="bottom">
                                 <Cell
-                                    width="8"
+                                    width="9"
                                     class="text-center"
                                     style="border-right:1px solid #EEE"
                                 >
                                     <Button
                                         @click="logout"
+                                        icon="mdi mdi-account-box"
                                         text-color="primary"
                                         :no-border="true"
                                         style="font-size: 15px"
@@ -76,28 +77,28 @@
                                     >
                                 </Cell>
                                 <Cell
-                                    width="8"
+                                    width="7"
                                     class="text-center"
                                     style="border-right:1px solid #EEE"
                                 >
                                     <Button
-                                        @click="logout"
+                                        @click="advancedOperations"
                                         text-color="gray"
                                         :no-border="true"
                                         style="font-size: 15px"
                                         >高级操作</Button
                                     >
                                 </Cell>
-                                <Cell width="8" class="text-center">
+                                <Cell width="7" class="text-center">
                                     <Button
                                         @click="logout"
+                                        icon="mdi mdi-logout"
                                         text-color="primary"
                                         :no-border="true"
                                         style="font-size: 15px"
                                         >注销</Button
                                     >
                                 </Cell>
-                                <!-- <Button @click="clearMeta" text-color="primary" :no-border="true">清除元数据缓存</!-->
                             </Row>
                         </div>
                     </DropdownCustom>
@@ -128,12 +129,12 @@ body
 
     .h-dropdowncustom-group
         .username
-            padding-top: 12px
+            padding-top: 15px
             margin: 0
-            font-size: 24px
+            font-size: 25px
 
         .role
-            font-size: 15px
+            font-size: 18px
             margin: 0
             margin-top: -2px
 
@@ -194,6 +195,7 @@ body
 </style>
 
 <script>
+import AdvancedOperations from "./componment/modal/AdvancedOperations";
 import { mapState } from "vuex";
 import dayjs from "dayjs";
 
@@ -201,7 +203,7 @@ export default {
     mounted() {
         let meta = this.$store.state.meta;
 
-        if (!meta.permissionsInitialized || !meta.rolesInitialized) {
+        if (!meta.userModelInitialized) {
             const self = this;
             this.$api.get("/meta/model/user", {
                 success(data) {
@@ -215,9 +217,17 @@ export default {
             if (this.$route.name !== data.key)
                 this.$router.push({ name: data.key });
         },
-        clearMeta() {
-            this.$store.commit("clearMeta");
-            this.$Message("成功清除元数据缓存。");
+        logout() {
+            this.$store.commit("logout");
+            this.$Message("成功登出。");
+            this.$router.push({ name: "login" });
+        },
+        advancedOperations() {
+            this.$Modal({
+                component: { vue: AdvancedOperations },
+                hasCloseIcon: true,
+                hasDivider: true
+            });
         }
     },
     data() {
@@ -248,12 +258,12 @@ export default {
                     ]
                 },
                 {
-                    title: "账户管理",
+                    title: "用户管理",
                     key: "_top_users",
                     icon: "mdi mdi-account-supervisor",
                     children: [
                         {
-                            title: "所有账户",
+                            title: "所有用户",
                             key: "user",
                             icon: "mdi mdi-account-box-multiple"
                         },

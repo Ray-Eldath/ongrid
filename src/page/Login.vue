@@ -190,7 +190,7 @@ export default {
                             let back = selfI.$route.query.back;
                             if (selfI.$route.query && back === "true") {
                                 selfI.$router.back();
-                            }
+                            } else selfI.$router.push({ name: "home" });
                         }
                     }
                 );
@@ -201,7 +201,7 @@ export default {
         },
         logout() {
             this.$store.commit("logout");
-            this.$Message("成功清除登录状态。");
+            this.$Message["warn"]("成功清除登录状态。");
         }
     }
 };
