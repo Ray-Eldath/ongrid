@@ -186,7 +186,7 @@ export default {
             this.$api.get(`/application/${data.id}/reject`, {
                 success() {
                     self.refresh();
-                    self.$Message(
+                    self.$Message["success"](
                         `已拒绝邮箱 ${data.email} 关联的注册申请，该邮箱的所有后续请求将被直接拒绝。`
                     );
                 }
@@ -197,7 +197,7 @@ export default {
             this.$api.get(`/application/${data.id}/reset`, {
                 success() {
                     self.refresh();
-                    self.$Message(
+                    self.$Message["success"](
                         `已重置邮箱 ${data.email} 的注册申请状态，对该邮箱的注册封锁现已解除。`
                     );
                 }

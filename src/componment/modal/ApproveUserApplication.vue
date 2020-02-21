@@ -105,7 +105,7 @@ export default {
                     },
                     {
                         success() {
-                            self.$Message(
+                            self.$Message["success"](
                                 `成功新建账户 ${self.application.username}`
                             );
                             self.$emit("applicationSubmitted", self.model);

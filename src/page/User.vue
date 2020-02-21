@@ -177,6 +177,7 @@
 <script>
 import RoleSelector from "../componment/RoleSelector";
 import Helper from "../componment/Helper";
+import ConfirmModal from "../componment/modal/Confirm";
 import { mapState } from "vuex";
 
 export default {
@@ -219,7 +220,33 @@ export default {
             this.$set(this.filter, "username", null);
         },
         editUser(user) {},
-        removeUser(user) {},
+        removeUser(user) {
+            const self = this;
+            this.$Modal({
+                component: {
+                    vue: ConfirmModal,
+                    datas: {
+                        title: `确认永久删除用户 ${user.username}？`,
+                        content: `您正试图永久删除用户 ${user.username} <${user.email}>，这意味着该用户将无法再次登录，所有相关的活动记录也将被级联删除。这是永久性操作。该用户若被删除，需要重新申请并批准才能重新具有访问权限。是否继续？`,
+                        confirmIcon: "mdi mdi-delete-forever",
+                        confirmColor: "red"
+                    }
+                },
+                events: {
+                    confirm: modal => {
+                        self.$api.delete(`/users/${user.id}`, {
+                            success() {
+                                self.$Message["success"](
+                                    `成功删除用户 ${user.username}`
+                                );
+                                self.refresh();
+                            }
+                        });
+                    }
+                },
+                hasCloseIcon: true
+            });
+        },
         async banUser(user) {
             const self = this;
             await this.$api.get(`/users/${user.id}/ban`, {

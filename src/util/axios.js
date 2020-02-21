@@ -84,6 +84,9 @@ export default {
             put(...args) {
                 return api.put(...args);
             },
+            delete(...args) {
+                return api.delete(...args);
+            },
             raw(...args) {
                 return api(...args);
             }

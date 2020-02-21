@@ -79,7 +79,7 @@ export default {
                 {
                     success() {
                         this.disabled = true;
-                        self.$Message["info"](
+                        self.$Message["success"](
                             "提交成功！请查看您的收件箱并遵照其中的指示执行下一步操作。感谢您注册 Offgrid！",
                             0
                         );

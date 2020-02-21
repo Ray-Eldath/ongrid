@@ -111,7 +111,7 @@ export default {
                     {
                         success() {
                             self.disabled = true;
-                            self.$Message["info"](
+                            self.$Message["success"](
                                 "提交成功！您的注册申请现正等待管理员审核并分配权限。",
                                 0
                             );
