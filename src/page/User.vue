@@ -178,6 +178,7 @@
 import RoleSelector from "../componment/RoleSelector";
 import Helper from "../componment/Helper";
 import ConfirmModal from "../componment/modal/Confirm";
+import EditUser from "../componment/modal/EditUser";
 import { mapState } from "vuex";
 
 export default {
@@ -219,7 +220,25 @@ export default {
             this.$set(this.filter, "roleObject", null);
             this.$set(this.filter, "username", null);
         },
-        editUser(user) {},
+        editUser(user) {
+            const self = this;
+            this.$Modal({
+                component: {
+                    vue: EditUser,
+                    datas: { data: JSON.parse(JSON.stringify(user)) }
+                },
+                events: {
+                    submitted: modal => {
+                        self.$Message["success"](
+                            `成功编辑用户 ${user.username}`
+                        );
+                        self.refresh();
+                    }
+                },
+                hasCloseIcon: true,
+                hasDivider: true
+            });
+        },
         removeUser(user) {
             const self = this;
             this.$Modal({

@@ -31,22 +31,23 @@ export default {
             default: null
         }
     },
-    computed: mapState({ roles: state => state.meta.userModel.roles }),
     watch: {
         value(v) {
-            this.$set(this.$data, "roleId", v === null ? null : v.role.id);
+            this.$set(this.$data, "roleId", v === null ? null : v.id);
         },
         roleId(value) {
-            this.$emit(
-                "input",
-                this.roles.find(e => e.role.id === value)
-            );
+            if (value != null)
+                this.$emit(
+                    "input",
+                    this.roles.find(e => e.role.id === value).role
+                );
         }
     },
     data() {
         return {
-            roleId: null
+            roleId: this.value === null ? null : this.value.id
         };
-    }
+    },
+    computed: mapState({ roles: state => state.meta.userModel.roles })
 };
 </script>

@@ -68,7 +68,7 @@
                                     style="border-right:1px solid #EEE"
                                 >
                                     <Button
-                                        @click="logout"
+                                        @click="personalInformation"
                                         icon="mdi mdi-account-box"
                                         text-color="primary"
                                         :no-border="true"
@@ -228,6 +228,9 @@ export default {
                 hasCloseIcon: true,
                 hasDivider: true
             });
+        },
+        personalInformation() {
+            
         }
     },
     data() {

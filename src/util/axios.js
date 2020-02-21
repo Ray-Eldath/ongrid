@@ -6,7 +6,7 @@ import heyui from "heyui";
 
 const api = axios.create({
     baseURL: "http://localhost:8080",
-    timeout: 1000
+    timeout: 2000
 });
 
 api.interceptors.request.use(
@@ -83,6 +83,9 @@ export default {
             },
             put(...args) {
                 return api.put(...args);
+            },
+            patch(...args) {
+                return api.patch(...args);
             },
             delete(...args) {
                 return api.delete(...args);
