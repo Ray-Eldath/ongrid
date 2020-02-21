@@ -10,6 +10,16 @@
                 :rules="validation"
                 ref="form"
             >
+                <p v-if="current" class="red-color" style="margin-bottom: 2em">
+                    <i class="mdi mdi-alert-outline"></i>
+                    <span style="font-weight: bold"> 警告：</span
+                    >您正在编辑当前登录账户。不恰当的修改可能将使您立即失去一些必要权限。
+                </p>
+                <p style="display: flex; margin-bottom: 2em">
+                    <i class="mdi mdi-information-variant"></i>
+                    修改可能不会立即生效。除权限相关的改动，最晚在用户
+                    {{ origin.username }} 再一次登录时改动才能反映。
+                </p>
                 <FormItem label="用户名" prop="username">
                     <input type="text" v-model="user.username" />
                 </FormItem>
@@ -17,7 +27,10 @@
                     <input type="text" v-model="user.email" />
                 </FormItem>
                 <FormItem label="身份" prop="role">
-                    <RoleSelector v-model="user.role" :deletable="false"></RoleSelector>
+                    <RoleSelector
+                        v-model="user.role"
+                        :deletable="false"
+                    ></RoleSelector>
                 </FormItem>
                 <Button
                     style="float: right"
@@ -40,6 +53,7 @@
 <style lang="sass" scoped>
 .modal
     min-width: 500px
+    max-width: 600px
 
     .content
         padding: 2em
@@ -49,7 +63,7 @@
 import RoleSelector from "../RoleSelector";
 
 export default {
-    props: ["data"],
+    props: ["data", "current"],
     data() {
         return {
             roleObject: null,

@@ -7,6 +7,14 @@ import "heyui/themes/index.less";
 import HeyUI from "heyui";
 HeyUI.config("modal.hasDivider", true);
 
+import "tippy.js/themes/light.css";
+import "tippy.js/themes/light-border.css";
+import "tippy.js/themes/google.css";
+import "tippy.js/themes/translucent.css";
+import VueTippy, { TippyComponent } from "vue-tippy";
+
+Vue.component("tippy", TippyComponent);
+Vue.use(VueTippy);
 Vue.use(Router);
 Vue.use(HeyUI);
 

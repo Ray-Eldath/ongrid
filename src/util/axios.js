@@ -46,6 +46,7 @@ function globalApiErrorHandler(e) {
                 timeout: 0
             });
         else {
+            console.log(e.response)
             let config = e.response.config;
 
             let failed = config.rejected;

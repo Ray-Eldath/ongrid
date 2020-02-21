@@ -120,19 +120,31 @@
                     <Button
                         text-color="yellow"
                         icon="mdi mdi-account-edit"
-                        v-tooltip="true"
-                        content="编辑用户"
+                        v-tippy="{ arrow: true, theme: 'google' }"
+                        :content="
+                            data.id === self.id ? '编辑当前用户' : '编辑用户'
+                        "
                         @click="editUser(data)"
                     ></Button>
 
-                    <Button
-                        style="margin-left: 4px"
-                        text-color="red"
-                        icon="mdi mdi-account-remove"
-                        v-tooltip="true"
-                        content="删除用户"
-                        @click="removeUser(data)"
-                    ></Button>
+                    <div
+                        style="display: inline-block"
+                        v-tippy="{ arrow: true, theme: 'google' }"
+                        :content="
+                            data.id === self.id
+                                ? '不能在管理面板删除当前账户'
+                                : '删除用户'
+                        "
+                    >
+                        <Button
+                            name="abcabc"
+                            :disabled="data.id === self.id"
+                            style="margin-left: 4px"
+                            text-color="red"
+                            icon="mdi mdi-account-remove"
+                            @click="removeUser(data)"
+                        ></Button>
+                    </div>
 
                     <Poptip
                         style="margin-left: 4px"
@@ -140,12 +152,21 @@
                         content="确认禁止该用户登录？"
                         @confirm="banUser(data)"
                     >
-                        <Button
-                            text-color="gray"
-                            icon="mdi mdi-account-cancel"
-                            v-tooltip="true"
-                            content="封禁用户"
-                        ></Button>
+                        <div
+                            style="display: inline-block"
+                            v-tippy="{ arrow: true, theme: 'google' }"
+                            :content="
+                                data.id === self.id
+                                    ? '不能封禁当前用户'
+                                    : '封禁用户'
+                            "
+                        >
+                            <Button
+                                :disabled="data.id === self.id"
+                                text-color="gray"
+                                icon="mdi mdi-account-cancel"
+                            ></Button>
+                        </div>
                     </Poptip>
                     <Poptip
                         style="margin-left: 4px"
@@ -156,7 +177,7 @@
                         <Button
                             text-color=""
                             icon="mdi mdi-account-check"
-                            v-tooltip="true"
+                            v-tippy="{ arrow: true, theme: 'google' }"
                             content="解除封禁"
                         ></Button>
                     </Poptip>
@@ -225,7 +246,10 @@ export default {
             this.$Modal({
                 component: {
                     vue: EditUser,
-                    datas: { data: JSON.parse(JSON.stringify(user)) }
+                    datas: {
+                        data: JSON.parse(JSON.stringify(user)),
+                        current: user.id === self.self.id
+                    }
                 },
                 events: {
                     submitted: modal => {
@@ -287,7 +311,8 @@ export default {
         ...mapState({
             flattenPermissions: state =>
                 state.meta.userModel["flatten_permissions"],
-            userStates: state => state.meta.userModel["user_states"]
+            userStates: state => state.meta.userModel["user_states"],
+            self: state => state.auth
         })
     },
     async mounted() {
