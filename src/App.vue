@@ -123,11 +123,18 @@
     </Layout>
 </template>
 
+<style lang="sass">
+.h-dropdowncustom-group
+    min-width: 360px
+</style>
+
 <style lang="sass" scoped>
 body
     font-family: 'Noto Sans SC', sans-serif
 
     .h-dropdowncustom-group
+        min-width: 500px
+
         .username
             padding-top: 15px
             margin: 0
@@ -195,6 +202,7 @@ body
 </style>
 
 <script>
+import Myself from "./componment/modal/Myself";
 import AdvancedOperations from "./componment/modal/AdvancedOperations";
 import { mapState } from "vuex";
 import dayjs from "dayjs";
@@ -230,7 +238,16 @@ export default {
             });
         },
         personalInformation() {
-            
+            this.$Modal({
+                component: {
+                    vue: Myself,
+                    datas: {
+                        self: this.self
+                    }
+                },
+                hasCloseIcon: true,
+                hasDivider: true
+            });
         }
     },
     data() {

@@ -5,7 +5,7 @@
         </header>
         <div class="content">
             <div class="icon">
-                <i class="yellow-color mdi mdi-alert-circle"></i>
+                <i :class="icon"></i>
             </div>
             <p class="paragraph">{{ content }}</p>
         </div>
@@ -38,6 +38,10 @@
 <script>
 export default {
     props: {
+        icon: {
+            type: String,
+            default: "yellow-color mdi mdi-alert-circle"
+        },
         title: String,
         titleIcon: String,
         content: String,

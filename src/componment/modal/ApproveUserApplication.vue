@@ -11,23 +11,21 @@
                 :rules="validation"
                 :model="model"
             >
-                <FormItem label="账户身份" prop="roleObject">
+                <FormItem label="账户身份" prop="role">
                     <RoleSelector
-                        v-model="model.roleObject"
+                        v-model="model.role"
                         :deletable="false"
                     ></RoleSelector>
                 </FormItem>
                 <!-- TODO: extra permissions，有时间就做..... 懒得弄就算了吧（唉我好垃圾QAQ） -->
             </Form>
-            <div v-if="model.roleObject != null" style="max-width: 600px">
+            <div v-if="model.role != null" style="max-width: 600px">
                 <p>
                     将创建账户
                     <span class="green-color">{{ application.username }}</span>
                     <span style="opacity: 0.7">（{{ application.email }}）</span
                     >，并分配身份
-                    <span class="green-color">{{
-                        model.roleObject.role.name
-                    }}</span
+                    <span class="green-color">{{ model.role.name }}</span
                     >。
                 </p>
                 <p>
@@ -40,10 +38,7 @@
                     <span style="font-weight: bold">注意：</span>
                     由于安全策略，不能创建具有您具有您所不具有的权限的账户。
                 </p>
-                <p
-                    v-if="model.roleObject.role.name === 'Root'"
-                    class="red-color root-warning"
-                >
+                <p v-if="model.role.name === 'Root'" class="red-color root-warning">
                     <i class="mdi mdi-alert-outline"></i>
                     <span style="font-weight: bold">警告：</span>Root
                     账户将具有所有权限，我们极其不建议新建多于一个的 Root
@@ -80,19 +75,21 @@ export default {
     data() {
         return {
             model: {
-                roleObject: null
+                role: null
             },
             validation: {
-                required: ["roleObject"]
+                required: ["role"]
             }
         };
     },
     computed: {
         permission() {
-            return this.model.roleObject.default_permissions
-                .map(e => e.name)
+            return this.roles
+                .find(e => e.role.id === this.model.role.id)
+                .default_permissions.map(e => e.name)
                 .join(", ");
-        }
+        },
+        ...mapState({ roles: state => state.meta.userModel.roles })
     },
     methods: {
         submit() {
@@ -101,7 +98,7 @@ export default {
                 this.$api.post(
                     `/application/${this.application.id}/approve`,
                     {
-                        role_id: this.model.roleObject.role.id
+                        role_id: this.model.role.id
                     },
                     {
                         success() {

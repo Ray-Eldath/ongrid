@@ -102,9 +102,14 @@
             <TableItem title="ID" prop="id" :width="120"></TableItem>
             <TableItem title="状态" :width="120">
                 <template v-slot="{ data }">
-                    <span class="gray-color" v-if="data.state === 0">正常</span>
+                    <span class="yellow-color" v-if="data.role.id === 0"
+                        >根用户</span
+                    >
                     <span class="red-color" v-else-if="data.state === 1"
                         >禁止登录</span
+                    >
+                    <span class="gray-color" v-else-if="data.state === 0"
+                        >正常</span
                     >
                 </template>
             </TableItem>

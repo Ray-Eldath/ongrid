@@ -13,13 +13,26 @@ const state = {
     },
     permissions: [],
     avatarUrl: "",
+    lastLoginTime: "",
+    registerTime: "",
     authed: false
 };
 
 const mutations = {
     login(
         state,
-        { token, expire, id, username, email, role, permissions, avatarUrl }
+        {
+            token,
+            expire,
+            id,
+            username,
+            email,
+            role,
+            permissions,
+            lastLoginTime,
+            registerTime,
+            avatarUrl
+        }
     ) {
         state.authToken = token;
         state.authExpire = expire;
@@ -30,6 +43,8 @@ const mutations = {
         state.role = role || state.role;
         state.permissions = permissions || state.permissions;
         state.avatarUrl = avatarUrl || state.avatarUrl;
+        state.lastLoginTime = lastLoginTime || state.lastLoginTime;
+        state.registerTime = registerTime || state.registerTime;
         state.authed = true;
     },
     logout(state) {
@@ -43,10 +58,13 @@ const mutations = {
         state.role.name = "";
         state.permissions = [];
         state.avatarUrl = "";
+        state.lastLoginTime = null;
+        state.registerTime = null;
         state.authed = false;
     },
     touchToken(state) {
-        if (state.authed) state.authExpireAt = dayjs().unix() + state.authExpire;
+        if (state.authed)
+            state.authExpireAt = dayjs().unix() + state.authExpire;
     }
 };
 

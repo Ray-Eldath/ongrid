@@ -19,6 +19,7 @@
                             type="password"
                             v-model="password"
                             placeholder="密码"
+                            @keydown.enter="submit"
                         />
                         <i class="h-icon mdi mdi-textbox-password"></i>
                     </div>
@@ -154,8 +155,8 @@ import dayjs from "dayjs";
 export default {
     data() {
         return {
-            email: "alpha@beta.omega",
-            password: "123",
+            email: "",
+            password: "",
             disabled: false,
             isLoading: false
         };
@@ -175,6 +176,8 @@ export default {
                     {
                         success(r) {
                             let self = r.self;
+                            let login = self.last_login_time;
+                            let register = self.register_time;
 
                             selfI.$store.commit("login", {
                                 token: r.bearer,
@@ -184,7 +187,9 @@ export default {
                                 email: self.email,
                                 role: self.role,
                                 permissions: self.permissions,
-                                avatarUrl: self.avatar_url
+                                avatarUrl: self.avatar_url,
+                                lastLoginTime: login ? login : "",
+                                registerTime: register ? register : ""
                             });
 
                             let back = selfI.$route.query.back;
