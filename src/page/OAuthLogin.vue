@@ -12,8 +12,7 @@
                 </p>
                 <p class="disclaimer">
                     <i class="mdi mdi-lock green-color"></i>
-                    不用担心，该服务绝无可能得到您的用户名或密码。若您具有访问该服务的权限，您将跳转至
-                    {{ clientName }}。
+                    不用担心，该服务绝无可能得到您的用户名或密码。若您具有访问该服务的权限，您将跳转至该服务。
                 </p>
                 <LoginBox
                     class="login-box"

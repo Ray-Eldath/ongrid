@@ -3,7 +3,7 @@ import Router from "vue-router";
 
 import store from "./store";
 
-import "heyui/themes/index.less";
+import "./var.less";
 import HeyUI from "heyui";
 HeyUI.config("modal.hasDivider", true);
 
