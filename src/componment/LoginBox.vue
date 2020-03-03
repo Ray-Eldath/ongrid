@@ -5,7 +5,7 @@
                 :disabled="disabled"
                 type="text"
                 v-model="email"
-                placeholder="邮箱"
+                :placeholder="emailPlanceholder"
             />
             <i class="h-icon mdi mdi-email"></i>
         </div>
@@ -14,7 +14,7 @@
                 :disabled="disabled"
                 type="password"
                 v-model="password"
-                placeholder="密码"
+                :placeholder="passwordPlanceholder"
                 @keydown.enter="submit"
             />
             <i class="h-icon mdi mdi-textbox-password"></i>
@@ -80,6 +80,14 @@ export default {
             type: Boolean,
             default: false
         },
+        emailPlanceholder: {
+            type: String,
+            default: "邮箱"
+        },
+        passwordPlanceholder: {
+            type: String,
+            default: "密码"
+        },
         loginPrompt: {
             type: String,
             default: "登录"
@@ -93,7 +101,7 @@ export default {
     },
     methods: {
         submit() {
-            console.log(this.email)
+            console.log(this.email);
             this.$emit("submit", this.email, this.password);
         }
     }

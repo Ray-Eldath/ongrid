@@ -26,6 +26,8 @@ const Confirm = () => import("./page/Confirm");
 const User = () => import("./page/User");
 const UserApplication = () => import("./page/UserApplication");
 
+const OAuthLogin = () => import("./page/OAuthLogin");
+
 const routes = {
     routes: [
         {
@@ -60,6 +62,11 @@ const routes = {
             path: "/applications",
             name: "application",
             component: UserApplication
+        },
+        {
+            path: "/oauth/login",
+            component: OAuthLogin,
+            meta: { plain: true }
         }
     ],
     mode: "history"

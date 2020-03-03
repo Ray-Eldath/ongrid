@@ -25,7 +25,10 @@
             <HHeader class="header" theme="white">
                 <div style="width:100px; float:left;">
                     <Button
-                        icon="mdi mdi-menu"
+                        :icon="
+                            'mdi mdi-' +
+                                (siderCollapsed ? 'forwardburger' : 'backburger')
+                        "
                         size="l"
                         noBorder
                         style="font-size: 20px"
