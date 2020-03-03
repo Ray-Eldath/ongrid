@@ -124,13 +124,18 @@
 </template>
 
 <style lang="sass">
-.h-dropdowncustom-group
-    min-width: 360px
+body
+    font-family: "Noto Sans SC", "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif !important
+    font-smoothing: antialiased
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+
+    .h-dropdowncustom-group
+        min-width: 360px
 </style>
 
 <style lang="sass" scoped>
 body
-    font-family: 'Noto Sans SC', sans-serif
 
     .h-dropdowncustom-group
         min-width: 500px

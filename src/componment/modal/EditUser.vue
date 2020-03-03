@@ -17,7 +17,7 @@
                 </p>
                 <p style="display: flex; margin-bottom: 2em">
                     <i class="mdi mdi-information-variant"></i>
-                    修改可能不会立即生效。除权限相关的改动，最晚在用户
+                    修改可能不会立即生效。除权限相关的改动，其它改动最晚在用户
                     {{ origin.username }} 再一次登录时改动才能反映。
                 </p>
                 <FormItem label="用户名" prop="username">

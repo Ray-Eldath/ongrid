@@ -3,42 +3,12 @@
         <div class="block">
             <div class="login-box">
                 <section class="login">
-                    <h1 class="title">登录</h1>
-                    <div class="h-input h-input-prefix-icon">
-                        <input
-                            :disabled="disabled"
-                            type="text"
-                            v-model="email"
-                            placeholder="邮箱"
-                        />
-                        <i class="h-icon mdi mdi-email"></i>
-                    </div>
-                    <div class="h-input h-input-prefix-icon">
-                        <input
-                            :disabled="disabled"
-                            type="password"
-                            v-model="password"
-                            placeholder="密码"
-                            @keydown.enter="submit"
-                        />
-                        <i class="h-icon mdi mdi-textbox-password"></i>
-                    </div>
-
-                    <Button
-                        class="login"
-                        color="primary"
-                        :loading="isLoading"
-                        @click="submit"
-                        >登录</Button
-                    >
-                    <div class="bottom">
-                        <p class="register">
-                            没有账户？请<router-link to="/register"
-                                >在这里注册。</router-link
-                            >
-                        </p>
-                        <p class="forget"><a href="http://">忘记密码？</a></p>
-                    </div>
+                    <h1 class="title">登录到 Offgrid</h1>
+                    <LoginBox
+                        :disabled="disabled"
+                        :isLoading="isLoading"
+                        @submit="submit"
+                    ></LoginBox>
                     <span class="logout" @click="logout">强制登出</span>
                 </section>
             </div>
@@ -96,46 +66,22 @@
         .login
             width: 60%
 
-            .h-input
-                margin-bottom: 1.2em
-                display: block
-                zoom: 1.3
+        .logout
+            float: left
+            margin-top: 10px
+            color: black
+            opacity: 0.2
+            cursor: pointer
+            transition: 500ms linear
 
-                .h-icon
-                    opacity: .3
+            &:hover
+                opacity: 0.4
 
-            .login
-                margin-top: 10px
-                margin-bottom: 5px
-                width: 100%
-                font-size: 20px
-
-            .bottom
-                display: flex
-                justify-content: space-between
-
-                .forget
-                    color: darken(white, 30)
-
-                .register
-                    color: darken(white, 60)
-
-            .logout
-                float: left
-                margin-top: 10px
-                color: black
-                opacity: 0.2
-                cursor: pointer
-                transition: 500ms linear
-
-                &:hover
-                    opacity: 0.4
-
-            .title
-                font-size: 4em
-                font-weight: bold
-                color: lighten(black, 40)
-                margin-bottom: 15px
+        .title
+            font-size: 4em
+            font-weight: bold
+            color: lighten(black, 40)
+            margin-bottom: 20px
 
 .background
     height: 100%
@@ -150,29 +96,28 @@ body
 </style>
 
 <script>
+import LoginBox from "../componment/LoginBox";
 import dayjs from "dayjs";
 
 export default {
     data() {
         return {
-            email: "",
-            password: "",
             disabled: false,
             isLoading: false
         };
     },
     methods: {
-        async submit() {
+        async submit(email, password) {
             this.isLoading = true;
             this.disabled = true;
-            if (this.email.length === 0 || this.password.length === 0)
+            if (email.length === 0 || password.length === 0)
                 this.$Message["error"]("错误：用户名或密码不能为空");
             else {
                 const selfI = this;
 
                 await this.$api.post(
                     "login",
-                    { email: this.email, password: this.password },
+                    { email: email, password: password },
                     {
                         success(r) {
                             let self = r.self;
@@ -208,6 +153,7 @@ export default {
             this.$store.commit("logout");
             this.$Message["warn"]("成功清除登录状态。");
         }
-    }
+    },
+    components: { LoginBox }
 };
 </script>
