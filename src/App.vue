@@ -27,7 +27,9 @@
                     <Button
                         :icon="
                             'mdi mdi-' +
-                                (siderCollapsed ? 'forwardburger' : 'backburger')
+                                (siderCollapsed
+                                    ? 'forwardburger'
+                                    : 'backburger')
                         "
                         size="l"
                         noBorder
@@ -113,13 +115,7 @@
                 </div>
                 <div class="bottom-line"></div>
                 <HFooter class="footer text-center">
-                    ©. 2019 - {{ year }}. IllegalSkillsExcepion.
-                    <a
-                        href="https://github.com/Ray-Eldath"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        >Ray Eldath</a
-                    >.
+                    <Copyright></Copyright>
                 </HFooter>
             </Content>
         </Layout>
@@ -212,6 +208,7 @@ body
 <script>
 import Myself from "./componment/modal/Myself";
 import AdvancedOperations from "./componment/modal/AdvancedOperations";
+import Copyright from "./componment/Copyright";
 import { mapState } from "vuex";
 import dayjs from "dayjs";
 
@@ -324,12 +321,10 @@ export default {
         }
     },
     computed: {
-        year() {
-            return dayjs().year();
-        },
         ...mapState({
             self: state => state.auth
         })
-    }
+    },
+    components: { Copyright }
 };
 </script>

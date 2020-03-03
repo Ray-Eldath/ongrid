@@ -16,7 +16,7 @@
 
         <div class="corner">
             <div>Photo by Markus Spiske on Unsplash</div>
-            <div>2020. Offgrid. ⚡ by IllegalSkillsException.</div>
+            <Copyright></Copyright>
         </div>
     </div>
 </template>
@@ -97,6 +97,7 @@ body
 
 <script>
 import LoginBox from "../componment/LoginBox";
+import Copyright from "../componment/Copyright";
 import dayjs from "dayjs";
 
 export default {
@@ -154,6 +155,6 @@ export default {
             this.$Message["warn"]("成功清除登录状态。");
         }
     },
-    components: { LoginBox }
+    components: { LoginBox, Copyright }
 };
 </script>

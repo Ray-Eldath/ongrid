@@ -25,10 +25,11 @@
                     @submit="submit"
                 ></LoginBox>
             </div>
-            <p class="bottom">
+            <div class="bottom">
                 这是一个由 {{ clientName }} 发起、由 Offgrid 处理的 OAuth
                 登录请求。
-            </p>
+                <Copyright></Copyright>
+            </div>
         </div>
     </div>
 </template>
@@ -79,12 +80,13 @@
             position: absolute
             bottom: 0
             margin-bottom: 5px
-            color: darken(white, 20)
+            opacity: .3
 </style>
 
 <script>
 import "../util/ribbon";
 import LoginBox from "../componment/LoginBox";
+import Copyright from "../componment/Copyright";
 
 export default {
     data() {
@@ -117,6 +119,6 @@ export default {
             );
         }
     },
-    components: { LoginBox }
+    components: { LoginBox, Copyright }
 };
 </script>

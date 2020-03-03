@@ -27,6 +27,7 @@ const User = () => import("./page/User");
 const UserApplication = () => import("./page/UserApplication");
 
 const OAuthLogin = () => import("./page/OAuthLogin");
+const OAuthConsent = () => import("./page/OAuthConsent");
 
 const routes = {
     routes: [
@@ -66,6 +67,11 @@ const routes = {
         {
             path: "/oauth/login",
             component: OAuthLogin,
+            meta: { plain: true }
+        },
+        {
+            path: "/oauth/consent",
+            component: OAuthConsent,
             meta: { plain: true }
         }
     ],

@@ -11,6 +11,7 @@
                 <slot></slot>
             </div>
         </div>
+        <div class="corner"><Copyright></Copyright></div>
     </div>
 </template>
 
@@ -23,6 +24,11 @@
     display: flex
     justify-content: center
     align-items: center
+
+    .corner
+        position: fixed
+        bottom: 0
+        opacity: .3
 
     .h-panel
         z-index: 2
@@ -44,6 +50,7 @@
 </style>
 
 <script>
+import Copyright from "../componment/Copyright";
 import "../util/ribbon";
 
 export default {
@@ -64,6 +71,7 @@ export default {
             type: Boolean,
             default: true
         }
-    }
+    },
+    components: { Copyright }
 };
 </script>
