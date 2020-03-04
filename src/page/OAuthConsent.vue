@@ -10,7 +10,7 @@ import PanelPage from "../componment/PanelPage";
 export default {
     mounted() {
         this.$api.get("hydra/consent", {
-            params: { login_challenge: this.$route.query.login_challenge }
+            params: { consent_challenge: this.$route.query.consent_challenge }
         });
     },
     components: { PanelPage }

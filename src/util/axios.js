@@ -6,7 +6,7 @@ import heyui from "heyui";
 
 const api = axios.create({
     baseURL: "http://localhost:8080",
-    timeout: 2000
+    timeout: 5000
 });
 
 api.interceptors.request.use(
@@ -25,8 +25,10 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
     response => {
+        let data = response.data;
         let success = response.config.success;
-        if (typeof success === "function") success(response.data);
+        if (typeof success === "function") success(data);
+        if (data.redirect) window.location = data.redirect_to;
     },
     e => globalApiErrorHandler(e)
 );
@@ -46,7 +48,7 @@ function globalApiErrorHandler(e) {
                 timeout: 0
             });
         else {
-            console.log(e.response)
+            console.log(e.response);
             let config = e.response.config;
 
             let failed = config.rejected;
