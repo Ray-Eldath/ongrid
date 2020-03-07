@@ -5,7 +5,7 @@ import errors from "./ErrorCode";
 import heyui from "heyui";
 
 const api = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: "https://api.qvq.ink/",
     timeout: 5000
 });
 
