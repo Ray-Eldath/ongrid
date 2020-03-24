@@ -214,6 +214,7 @@ import dayjs from "dayjs";
 
 export default {
     mounted() {
+        if (this.$route.meta.plain) return;
         let meta = this.$store.state.meta;
 
         if (!meta.userModelInitialized) {

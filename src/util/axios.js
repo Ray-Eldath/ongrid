@@ -41,13 +41,15 @@ function globalApiErrorHandler(e) {
         let status = e.response.status;
         let data = e.response.data;
 
-        if (status === 500)
+        if (status === 500) {
+            console.error(data);
+
             heyui.$Notice["error"]({
                 title: "糟糕！发生了内部错误",
                 content: `绝大多数情况下，这不是您的原因。请向您组织的 Offgrid 管理员报告此问题，这有助于我们改善用户体验。<br/> <code>Server returns ${status} with data: <${data}></code>`,
                 timeout: 0
             });
-        else {
+        } else {
             console.log(e.response);
             let config = e.response.config;
 

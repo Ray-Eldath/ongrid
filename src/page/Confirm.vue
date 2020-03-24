@@ -21,6 +21,7 @@
                     type="password"
                     v-model="model.password"
                     :disabled="disabled"
+                    @keydown.enter="submit"
                 />
             </FormItem>
             <FormItem class="button-item">

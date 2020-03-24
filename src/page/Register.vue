@@ -9,6 +9,7 @@
                     type="text"
                     v-model="email"
                     placeholder="邮箱"
+                    @keydown.enter="submit"
                 />
                 <i class="h-icon mdi mdi-email"></i>
             </div>
@@ -19,7 +20,6 @@
                     icon="mdi mdi-email-send"
                     :disabled="disabled"
                     @click="submit"
-                    @keydown.enter="submit"
                     >发送验证邮件</Button
                 >
             </div>
@@ -78,7 +78,7 @@ export default {
                 { email: this.email },
                 {
                     success() {
-                        this.disabled = true;
+                        self.disabled = true;
                         self.$Message["success"](
                             "提交成功！请查看您的收件箱并遵照其中的指示执行下一步操作。感谢您注册 Offgrid！",
                             0
