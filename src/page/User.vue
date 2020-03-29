@@ -120,6 +120,19 @@
                     {{ data.role.name }}
                 </template>
             </TableItem>
+            <TableItem title="上次登录时间">
+                <template v-slot="{ data }">
+                    <span v-if="data.last_login_time">
+                        {{ formatTime(data.last_login_time) }}
+                    </span>
+                    <span v-else class="gray-color">从未登录</span>
+                </template>
+            </TableItem>
+            <TableItem title="注册时间">
+                <template v-slot="{ data }">
+                    {{ formatTime(data.register_time) }}
+                </template>
+            </TableItem>
             <TableItem title="操作">
                 <template v-slot="{ data }">
                     <Button
@@ -310,6 +323,10 @@ export default {
                     self.refresh();
                 }
             });
+        },
+        formatTime(time) {
+            if (time) return this.$dayjs(time).format("lll");
+            else return undefined;
         }
     },
     computed: {

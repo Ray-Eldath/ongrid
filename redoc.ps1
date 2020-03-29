@@ -1,0 +1,1 @@
+redoc-cli serve https://api.qvq.ink/swagger.json -w -p 1000
