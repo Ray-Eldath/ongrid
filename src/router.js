@@ -34,45 +34,48 @@ const routes = {
         {
             path: "/",
             name: "home",
-            component: Home
+            component: Home,
+            meta: { title: "主页" }
         },
         {
             path: "/login",
             name: "login",
             component: Login,
-            meta: { plain: true }
+            meta: { plain: true, title: "登录" }
         },
         {
             path: "/register",
             name: "register",
             component: Register,
-            meta: { plain: true }
+            meta: { plain: true, title: "注册" }
         },
         {
             path: "/confirm/:token",
             name: "confirm",
             component: Confirm,
-            meta: { plain: true }
+            meta: { plain: true, title: "确认您的邮箱" }
         },
         {
             path: "/users",
             name: "user",
-            component: User
+            component: User,
+            meta: { title: "用户管理" }
         },
         {
             path: "/applications",
             name: "application",
-            component: UserApplication
+            component: UserApplication,
+            meta: { title: "用户申请" }
         },
         {
             path: "/oauth/login",
             component: OAuthLogin,
-            meta: { plain: true }
+            meta: { plain: true, title: "开放平台：使用您的 Offgrid 账户登录" }
         },
         {
             path: "/oauth/consent",
             component: OAuthConsent,
-            meta: { plain: true }
+            meta: { plain: true, title: "开放平台：授权第三方应用" }
         }
     ],
     mode: "history"
@@ -81,6 +84,7 @@ const routes = {
 let router = new Router(routes);
 
 router.beforeEach((to, from, next) => {
+    if (to.meta.title) document.title = "Offgrid - " + to.meta.title;
     if (to.meta.plain) next();
     else {
         if (!store.state.auth.authed) {

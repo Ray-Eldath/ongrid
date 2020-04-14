@@ -142,12 +142,14 @@ body
         .username
             padding-top: 15px
             margin: 0
+            font-weight: bold
             font-size: 25px
 
         .role
             font-size: 18px
             margin: 0
             margin-top: -2px
+            opacity: .6
 
         .bottom
             line-height: 40px
@@ -233,7 +235,7 @@ export default {
         },
         logout() {
             this.$store.commit("logout");
-            this.$Message("成功登出。");
+            this.$Message["success"]("成功登出。");
             this.$router.push({ name: "login" });
         },
         advancedOperations() {

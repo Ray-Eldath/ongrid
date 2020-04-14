@@ -51,11 +51,13 @@
     padding-bottom: 10px
 
     .username
+        font-weight: bold
         font-size: 2em
 
     .role
         font-size: 1.4em
         margin-top: -5px
+        opacity: .6
 
     .separation-line
         margin-top: 5px

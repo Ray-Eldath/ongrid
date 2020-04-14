@@ -51,7 +51,7 @@
     .h-input
         margin-bottom: 1.2em
         display: block
-        zoom: 1.3
+        zoom: 1.2
 
         .h-icon
             opacity: .3
@@ -101,7 +101,6 @@ export default {
     },
     methods: {
         submit() {
-            console.log(this.email);
             this.$emit("submit", this.email, this.password);
         }
     }

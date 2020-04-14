@@ -77,7 +77,7 @@ export default {
             validation: {
                 rules: {
                     username: {
-                        maxLen: 16,
+                        maxLen: 30,
                         required: true
                     },
                     password: {

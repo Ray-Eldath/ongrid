@@ -164,41 +164,56 @@
                         ></Button>
                     </div>
 
-                    <Poptip
-                        style="margin-left: 4px"
-                        v-if="data.state === 0"
-                        content="确认禁止该用户登录？"
-                        @confirm="banUser(data)"
-                    >
+                    <div v-if="data.id === self.id">
                         <div
                             style="display: inline-block"
                             v-tippy="{ arrow: true, theme: 'google' }"
-                            :content="
-                                data.id === self.id
-                                    ? '不能封禁当前用户'
-                                    : '封禁用户'
-                            "
+                            :content="不能封禁当前用户"
                         >
                             <Button
-                                :disabled="data.id === self.id"
+                                disabled
                                 text-color="gray"
                                 icon="mdi mdi-account-cancel"
                             ></Button>
                         </div>
-                    </Poptip>
-                    <Poptip
-                        style="margin-left: 4px"
-                        v-else-if="data.state === 1"
-                        content="确认允许该用户登录？"
-                        @confirm="unbanUser(data)"
-                    >
-                        <Button
-                            text-color=""
-                            icon="mdi mdi-account-check"
-                            v-tippy="{ arrow: true, theme: 'google' }"
-                            content="解除封禁"
-                        ></Button>
-                    </Poptip>
+                    </div>
+                    <div v-else>
+                        <Poptip
+                            style="margin-left: 4px"
+                            v-if="data.state === 0"
+                            content="确认禁止该用户登录？"
+                            @confirm="banUser(data)"
+                        >
+                            <div
+                                style="display: inline-block"
+                                v-tippy="{ arrow: true, theme: 'google' }"
+                                :content="
+                                    data.id === self.id
+                                        ? '不能封禁当前用户'
+                                        : '封禁用户'
+                                "
+                            >
+                                <Button
+                                    :disabled="data.id === self.id"
+                                    text-color="gray"
+                                    icon="mdi mdi-account-cancel"
+                                ></Button>
+                            </div>
+                        </Poptip>
+                        <Poptip
+                            style="margin-left: 4px"
+                            v-else-if="data.state === 1"
+                            content="确认允许该用户登录？"
+                            @confirm="unbanUser(data)"
+                        >
+                            <Button
+                                text-color=""
+                                icon="mdi mdi-account-check"
+                                v-tippy="{ arrow: true, theme: 'google' }"
+                                content="解除封禁"
+                            ></Button>
+                        </Poptip>
+                    </div>
                 </template>
             </TableItem>
         </Table>
