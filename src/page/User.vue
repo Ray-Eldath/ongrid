@@ -99,8 +99,8 @@
             :border="false"
             :stripe="true"
         >
-            <TableItem title="ID" prop="id" :width="120"></TableItem>
-            <TableItem title="状态" :width="120">
+            <TableItem title="ID" prop="id" :width="50"></TableItem>
+            <TableItem title="状态" :width="60">
                 <template v-slot="{ data }">
                     <span class="yellow-color" v-if="data.role.id === 0"
                         >根用户</span
@@ -113,9 +113,17 @@
                     >
                 </template>
             </TableItem>
-            <TableItem title="用户名" prop="username"></TableItem>
-            <TableItem title="邮箱" prop="email"></TableItem>
-            <TableItem title="身份">
+            <TableItem title="用户名">
+                <template v-slot="{ data }">
+                    <span style="white-space: nowrap; text-overflow: ellipsis">{{ data.username }}</span>
+                </template>
+            </TableItem>
+            <TableItem title="邮箱">
+                <template v-slot="{ data }">
+                    <span style="white-space: nowrap; text-overflow: ellipsis">{{ data.email }}</span>
+                </template>
+            </TableItem>
+            <TableItem title="身份" :width="110">
                 <template v-slot="{ data }">
                     {{ data.role.name }}
                 </template>
@@ -164,11 +172,11 @@
                         ></Button>
                     </div>
 
-                    <div v-if="data.id === self.id">
+                    <template v-if="data.id === self.id">
                         <div
-                            style="display: inline-block"
+                            style="display: inline-block; margin-left: 4px"
                             v-tippy="{ arrow: true, theme: 'google' }"
-                            :content="不能封禁当前用户"
+                            content="不能封禁当前用户"
                         >
                             <Button
                                 disabled
@@ -176,8 +184,8 @@
                                 icon="mdi mdi-account-cancel"
                             ></Button>
                         </div>
-                    </div>
-                    <div v-else>
+                    </template>
+                    <template v-else>
                         <Poptip
                             style="margin-left: 4px"
                             v-if="data.state === 0"
@@ -213,7 +221,7 @@
                                 content="解除封禁"
                             ></Button>
                         </Poptip>
-                    </div>
+                    </template>
                 </template>
             </TableItem>
         </Table>
