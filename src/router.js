@@ -21,13 +21,17 @@ Vue.use(HeyUI);
 import Home from "./page/Home";
 import Login from "./page/Login";
 
+
+
 const Register = () => import("./page/Register");
 const Confirm = () => import("./page/Confirm");
 const User = () => import("./page/User");
 const UserApplication = () => import("./page/UserApplication");
+const Graph = () => import("./page/Graph");
 
 const OAuthLogin = () => import("./page/OAuthLogin");
 const OAuthConsent = () => import("./page/OAuthConsent");
+
 
 const routes = {
     routes: [
@@ -76,6 +80,12 @@ const routes = {
             path: "/oauth/consent",
             component: OAuthConsent,
             meta: { plain: true, title: "开放平台：授权第三方应用" }
+        },
+        {
+            path:"/graph",
+            name: "graph",
+            component:Graph,
+            meta: { title: "运行节点管理" }
         }
     ],
     mode: "history"
@@ -87,6 +97,7 @@ router.beforeEach((to, from, next) => {
     if (to.meta.title) document.title = "Offgrid - " + to.meta.title;
     if (to.meta.plain) next();
     else {
+        next();
         if (!store.state.auth.authed) {
             HeyUI.$Message["error"]("请先登录！");
             let path = "/login";
