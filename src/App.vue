@@ -205,6 +205,7 @@ body
 
         .footer
             margin-bottom: 1em
+        
 </style>
 
 <script>
@@ -280,8 +281,13 @@ export default {
                         },
                         {
                             title: "运行图",
-                            key: "graph",
+                            key: "graph1",
                             icon: "mdi mdi-swap-horizontal-bold"
+                        },
+                        {
+                            title:"运行结点管理",
+                            key: "graph",
+                            icon:"mdi mdi-adjust",
                         }
                     ]
                 },
