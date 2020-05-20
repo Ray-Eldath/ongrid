@@ -1,0 +1,9 @@
+0.0.0.0:80 {
+    rewrite {
+        regexp .*
+        to {path} /
+    }
+
+    log stdout
+    errors stdout
+}

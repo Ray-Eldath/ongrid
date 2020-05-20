@@ -1,0 +1,33 @@
+{
+    "name": "ongrid",
+    "version": "1.0.0",
+    "private": true,
+    "main": "index.js",
+    "author": "Ray-Eldath <ray.eldath@outlook.com>",
+    "scripts": {
+        "build": "parcel build index.html",
+        "clean": "rm -r dist",
+        "dev": "parcel serve index.html"
+    },
+    "dependencies": {
+        "@babel/runtime-corejs2": "^7.9.6",
+        "axios": "^0.19.2",
+        "dayjs": "^1.8.27",
+        "heyui": "^1.26.0",
+        "vue": "^2.6.11",
+        "vue-hot-reload-api": "^2.3.4",
+        "vue-router": "^3.1.6",
+        "vue-tippy": "^4.4.0",
+        "vuex": "^3.4.0",
+        "vuex-persistedstate": "^3.0.1"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.9.6",
+        "@babel/plugin-transform-runtime": "^7.9.6",
+        "@vue/component-compiler-utils": "^3.1.2",
+        "cssnano": "^4.1.10",
+        "less": "^3.11.1",
+        "sass": "^1.26.5",
+        "vue-template-compiler": "^2.6.11"
+    }
+}
