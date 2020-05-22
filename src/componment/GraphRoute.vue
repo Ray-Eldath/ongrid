@@ -14,7 +14,14 @@
                 >删除</Button
             >
         </div>
-        <Table :datas="datas" stripe checkbox ref="tablec" align="center">
+        <Table
+            :loading="loading"
+            :datas="datas"
+            stripe
+            checkbox
+            ref="tablec"
+            align="center"
+        >
             <TableItem title="路由">
                 <template slot-scope="{ data }">
                     <div class="primary-color">
@@ -166,7 +173,8 @@ export default {
             },
             valueFrom: "",
             valueTo: "",
-            addStatus: false
+            addStatus: false,
+            loading: true
         };
     },
     created() {
@@ -252,6 +260,7 @@ export default {
             this.$api.get("routes", {
                 success(r) {
                     that.datas = r.result;
+                    that.loading = false;
                 }
             });
         },

@@ -4,7 +4,10 @@ di<template>
             <p>计算终端</p>
         </div>
         <div class="top-button">
-            <Button icon="mdi mdi-plus-circle" text-color="primary" @click="addStatus = true"
+            <Button
+                icon="mdi mdi-plus-circle"
+                text-color="primary"
+                @click="addStatus = true"
                 >新增计算终端</Button
             >
             <Button icon="mdi mdi-delete" text-color="red" @click="remover()"
@@ -12,6 +15,7 @@ di<template>
             >
         </div>
         <Table
+            :loading="loading"
             :datas="datas"
             stripe
             checkbox
@@ -77,7 +81,10 @@ di<template>
                                     {{ prettify(detailList.create_time) }}
                                 </div>
                             </div>
-                            <div class="entry" v-if="detailList.last_connection_time != null">
+                            <div
+                                class="entry"
+                                v-if="detailList.last_connection_time != null"
+                            >
                                 <div class="first">最后链接时间</div>
                                 <div class="second">
                                     {{
@@ -165,7 +172,8 @@ export default {
             detailStatus: false,
             detailList: {},
             addStatus: false,
-            valueAdd: ""
+            valueAdd: "",
+            loading: true
         };
     },
     created() {
@@ -232,13 +240,6 @@ export default {
                 });
         },
 
-        detaile() {
-            // this.$Modal({
-            //     title: "计算终端详情",
-            //     content: "名字：  "
-            // });
-        },
-
         //添加数据源
         add() {
             // datas.push({ id: 7, name: "添加", age: 12, address: "然后添加的" });
@@ -273,6 +274,7 @@ export default {
             this.$api.get("endpoint", {
                 success(r) {
                     that.datas = r.result;
+                    that.loading = false;
                 }
             });
         },

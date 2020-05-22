@@ -1,5 +1,5 @@
 <template>
-    <div class="contain">
+    <div class="container">
         <div class="left">
             <GraphSource></GraphSource>
         </div>
@@ -15,8 +15,8 @@
 </template>
 
 <style lang="sass" scoped>
-
-.contain
+.container
+    height: 60vh
     display: flex
     justify-content: space-around
         
@@ -31,8 +31,6 @@
     .right
         background-color: #F8F8F8
         width: 28%
-
-    
 </style>
 
 <script>
