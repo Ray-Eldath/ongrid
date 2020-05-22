@@ -4,96 +4,136 @@
             <p>数据源</p>
         </div>
         <div class="top-button">
-            <Button class="h-btn h-btn-s" @click="addStatus=true">
-                <i class="mdi mdi-plus"></i>
-                添加
-            </Button>
+            <Button
+                text-color="primary"
+                icon="mdi mdi-plus-circle"
+                @click="addStatus = true"
+                >新增数据源</Button
+            >
 
-            <Button class="h-btn h-btn-s" text-color="red" @click="remove()">
-                <i class="mdi mdi-delete"></i>
-                删除
-            </Button>
+            <Button text-color="red" icon="mdi mdi-delete" @click="remove()"
+                >删除</Button
+            >
         </div>
-        <Table :datas="datas" stripe checkbox ref="table" align="center" @trclick="detaile">
-            <TableItem title="序号">
-                <template slot-scope="{index}">{{index}}</template>
-            </TableItem>
-            <TableItem title="数据源" prop="name"></TableItem>
-            <TableItem title="操作">
-                <template slot-scope="{data}">
-                    <!-- <button class="h-btn h-btn-s h-btn-text-yellow" @click="chooseOne(data)">
-                        <i class="mdi mdi-pen"></i>
-                    </button> -->
-
-                    <button class="h-btn h-btn-s h-btn-text-yellow" v-tooltip placement="top-start" content="查看详情" @click="detail(data)">
-                        <i class="mdi mdi-book"></i>
-                    </button>
-                    <Modal v-model="opened">
-                        <div slot="header">修改</div>
-                        <div :style="{'height': height ? '800px' : 'auto'}">
-                            <div>修改该数据源</div>
-                            <div>
-                                <p>新数据源：{{value}}</p>
-                                <div>
-                                    <input type="text" v-model="value" placeholder="请输入新数据源" />
-                                </div>
-                            </div>
-                        </div>
-                        <div slot="footer">
-                            <button class="h-btn" @click="close">取消</button>
-                            <button class="h-btn h-btn-primary" @click="confirm(value)">确定</button>
-                        </div>
-                    </Modal>
-
-                    <Modal v-model="detailStatus">
-                        <div slot="header">详情</div>
-                        <div :style="{'height': height ? '800px' : 'auto'}">
-                            <div>
-                                <p>数据源：{{detailList.name}}</p>
-                            </div>
-                            <div>
-                                <p>创建时间：{{detailList.create_time}}</p>
-                            </div>
-                            <div v-if="detailList.last_connection_time!=null">
-                                <p>最后链接时间：{{detailList.last_connection_time}}</p>
-                            </div>
-                            <div >
-                                <p>id为：{{detailList.id}}</p>
-                            </div>
-                        </div>
-                        <div slot="footer">
-                            <button class="h-btn h-btn-primary" @click="detailStatus=false">确定</button>
-                        </div>
-                    </Modal>
-
+        <Table
+            :datas="datas"
+            :loading="loading"
+            stripe
+            checkbox
+            ref="table"
+            align="center"
+        >
+            <TableItem title="数据源名称" prop="name"></TableItem>
+            <TableItem :width="80" title="操作">
+                <template slot-scope="{ data }">
+                    <Button
+                        size="s"
+                        icon="mdi mdi-book"
+                        text-color="yellow"
+                        v-tippy="{ arrow: true, theme: 'google' }"
+                        content="查看详情"
+                        @click="detail(data)"
+                    >
+                    </Button>
                 </template>
             </TableItem>
         </Table>
 
-        <Modal v-model="addStatus">
-            <div slot="header">新增</div>
-            <div :style="{'height': height ? '800px' : 'auto'}">
-                <div>新增数据源</div>
+        <Modal v-model="opened">
+            <div slot="header">修改</div>
+            <div :style="{ height: height ? '800px' : 'auto' }">
+                <div>修改该数据源</div>
                 <div>
-                    <p>新数据源：{{valueAdd}}</p>
+                    <p>新数据源：{{ value }}</p>
                     <div>
-                        <input type="text" v-model="valueAdd" placeholder="请输入新数据源" />
+                        <input
+                            type="text"
+                            v-model="value"
+                            placeholder="请输入新数据源"
+                        />
                     </div>
                 </div>
             </div>
             <div slot="footer">
-                <button class="h-btn" @click="addStatus=false">取消</button>
-                <button class="h-btn h-btn-primary" @click="add()">确定</button>
+                <button class="h-btn" @click="close">取消</button>
+                <button class="h-btn h-btn-primary" @click="confirm(value)">
+                    确定
+                </button>
+            </div>
+        </Modal>
+
+        <Modal v-model="detailStatus">
+            <div slot="header">数据源详细信息</div>
+            <div class="ablist">
+                <div class="entry">
+                    <div class="first">ID</div>
+                    <div class="second">{{ detailList.id }}</div>
+                </div>
+                <div class="entry">
+                    <div class="first">名称</div>
+                    <div class="second">{{ detailList.name }}</div>
+                </div>
+                <div class="entry">
+                    <div class="first">创建时间</div>
+                    <div class="second">{{ detailList.create_time }}</div>
+                </div>
+                <div
+                    class="entry"
+                    v-if="detailList.last_connection_time != null"
+                >
+                    <div class="first">最后链接时间</div>
+                    <div class="second">
+                        {{ detailList.last_connection_time }}
+                    </div>
+                </div>
+            </div>
+            <div slot="footer">
+                <button
+                    class="h-btn h-btn-primary"
+                    @click="detailStatus = false"
+                >
+                    确定
+                </button>
+            </div>
+        </Modal>
+
+        <Modal v-model="addStatus">
+            <div slot="header">新增数据源</div>
+            <div style="display: flex; padding-top: 1em; padding-bottom: 1em">
+                <span style="line-height: 30px; padding-right: 8px">名称</span>
+                <input
+                    style="flex-grow: 1"
+                    type="text"
+                    v-model="valueAdd"
+                    placeholder="请输入新数据源的名称"
+                />
+            </div>
+            <div slot="footer">
+                <Button no-border @click="addStatus = false">取消</Button>
+                <Button color="primary" @click="add()">确定</Button>
             </div>
         </Modal>
     </div>
 </template>
 
 <style lang="sass" scoped>
+.ablist
+    margin-top: 1em
+    margin-bottom: 1em
+
+    .entry
+        .first
+            display: inline
+
+        .second
+            float: right
+</style>
+
+<style lang="sass" scoped>
 .top-button 
-    padding-left:5px
+    padding-left: 5px
     Button
-        margin:5px 0 10px 5px !important
+    margin: 5px 0 10px 5px !important
         
 
 .contain-top
@@ -109,10 +149,10 @@
 </style>
 
 <style>
-    .h-btn.h-btn-s{
-        margin: 5px 0 5px 0px !important;
-        padding: 5px 5px !important;
-    }
+.h-btn.h-btn-s {
+    margin: 5px 0 5px 0px !important;
+    padding: 5px 5px !important;
+}
 </style>
 
 <script>
@@ -128,20 +168,21 @@ export default {
             detailStatus: false,
             detailList: {},
             addStatus: false,
-            valueAdd: ''
+            valueAdd: "",
+            loading: true
         };
     },
     created() {
-        this.getDataList()
+        this.getDataList();
     },
     methods: {
         detail(data) {
-            this.detailStatus = true
-            let obj = {}
-            obj.create_time = data.create_time.replace('T', ' ')
-            obj.name = data.name
-            obj.id=data.id
-            this.detailList = obj
+            this.detailStatus = true;
+            let obj = {};
+            obj.create_time = data.create_time.replace("T", " ");
+            obj.name = data.name;
+            obj.id = data.id;
+            this.detailList = obj;
         },
         modalClose() {
             this.$Message.warn("点击了取消按钮");
@@ -152,19 +193,19 @@ export default {
             this.opened = false;
         },
         chooseOne(data) {
-            this.opened = true
-            let currentList = []
-            currentList.push(data)
-            this.currentList = currentList
+            this.opened = true;
+            let currentList = [];
+            currentList.push(data);
+            this.currentList = currentList;
         },
-        //修改数据源
+        // 修改数据源
         confirm(value) {
             if (this.value.length == 0) {
                 this.$Message.error("新数据源不能为空");
             } else {
                 //不知道为什么有问题
-                let currentList = this.currentList
-                this.updateDataList(currentList, value)
+                let currentList = this.currentList;
+                this.updateDataList(currentList, value);
                 // console.log(this.datas.indexOf(data));
                 // this.datas[this.datas.indexOf(data)].name = this.value;
                 // this.value = "";
@@ -177,11 +218,11 @@ export default {
         },
         //删除数据源
         remove() {
-            let that = this
-            this.$Confirm("确定删除？", "自定义title")
+            let that = this;
+            this.$Confirm("确定删除？")
                 .then(() => {
                     var selete = this.$refs.table.getSelection();
-                    console.log('selete==>', selete);
+                    console.log("selete==>", selete);
                     if (selete.length == 0) {
                         this.$Message.error("未选中数据源");
                     } else {
@@ -193,89 +234,78 @@ export default {
                         //         }
                         //     }
                         // }
-                        that.deleteDataList(selete)
+                        that.deleteDataList(selete);
                     }
                 })
-                .catch((error) => {
+                .catch(error => {
                     this.$Message.error("取消");
                 });
         },
-        //
-        detaile(e) {
-            // let currentIds = []
-            // currentIds.push(e.id)
-            // this.currentIds = currentIds
-            // this.$Modal({
-            //     title: "数据源详情",
-            //     content: "详情 "
-            // });
-        },
-
-        //添加数据源
+        // 添加数据源
         add() {
             // datas.push({ id: 7, name: "添加", age: 12, address: "然后添加的" });
-            let valueAdd = this.valueAdd
+            let valueAdd = this.valueAdd;
             if (!valueAdd) {
                 that.$Message.success("请输入新数据源");
-                return
+                return;
             }
-            let that = this
+            let that = this;
             this.$api.post(
                 "datasource",
-                { name: valueAdd, postUrl: "https://github.com/Ray-Eldath/post_data" },
+                {
+                    name: valueAdd,
+                    postUrl: "https://github.com/Ray-Eldath/post_data"
+                },
                 {
                     success(r) {
                         that.$Message.success("增加成功！");
-                        that.addStatus = false
-                        that.valueAdd = ''
-                        that.getDataList()
+                        that.addStatus = false;
+                        that.valueAdd = "";
+                        that.getDataList();
                     }
                 }
             );
         },
-
         onselect(data) {
             log(data);
         },
         getDataList() {
-            let that = this
-            this.$api.get(
-                "datasource",
-                {
-                    success(r) {
-                        that.datas = r.result
-                    }
+            let self = this;
+            this.$api.get("datasource", {
+                success(r) {
+                    self.datas = r.result;
+                    self.loading = false;
                 }
-            );
+            });
         },
         deleteDataList(data) {
-            let array = []
+            let array = [];
             data.map(v => {
-                array.push(v.id)
-            })
-            let str = array.join(',')
-            let that = this
-            this.$api.delete(
-                "datasource/" + str,
-                {
-                    success(r) {
-                        that.$Message.success("删除成功！");
-                        that.getDataList()
-                    }
+                array.push(v.id);
+            });
+            let str = array.join(",");
+            let that = this;
+            this.$api.delete("datasource/" + str, {
+                success(r) {
+                    that.$Message.success("删除成功！");
+                    that.getDataList();
                 }
-            );
+            });
         },
         updateDataList(data, value) {
-            let that = this
-            let url = "datasource/" + data[0].id
+            let that = this;
+            let url = "datasource/" + data[0].id;
             this.$api.patch(
                 url,
-                { name: value, postUrl: "https://github.com/Ray-Eldath/post_data" },
+                {
+                    name: value,
+                    postUrl: "https://github.com/Ray-Eldath/post_data"
+                },
                 {
                     success(r) {
                         that.$Message.success("修改成功！");
-                        that.value = ''
-                        that.getDataList()
+                        that.value = "";
+                        that.getDataList();
                     }
                 }
             );

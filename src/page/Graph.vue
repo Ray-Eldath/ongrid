@@ -9,7 +9,7 @@
         </div>
 
         <div class="right">
-            <GraphTerminal></GraphTerminal>
+            <GraphEndpoint></GraphEndpoint>
         </div>
     </div>
 </template>
@@ -36,18 +36,11 @@
 </style>
 
 <script>
-import GraphSource from '../componment/GraphSource'
-import GraphRoute from '../componment/GraphRoute'
-import GraphTerminal from '../componment/GraphTerminal'
-export default {
-    components: { GraphSource ,GraphRoute,GraphTerminal},
-    data() {
-        return {
-            
-        };
-    },
-    methods:{
+import GraphSource from "../componment/GraphSource";
+import GraphRoute from "../componment/GraphRoute";
+import GraphEndpoint from "../componment/GraphEndpoint";
 
-    }
+export default {
+    components: { GraphSource, GraphRoute, GraphEndpoint }
 };
 </script>

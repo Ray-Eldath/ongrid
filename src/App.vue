@@ -216,19 +216,6 @@ import { mapState } from "vuex";
 import dayjs from "dayjs";
 
 export default {
-    mounted() {
-        if (this.$route.meta.plain) return;
-        let meta = this.$store.state.meta;
-
-        if (!meta.userModelInitialized) {
-            const self = this;
-            this.$api.get("/meta/model/user", {
-                success(data) {
-                    self.$store.commit("setUserModel", data);
-                }
-            });
-        }
-    },
     methods: {
         select(data) {
             if (this.$route.name !== data.key)
@@ -257,6 +244,19 @@ export default {
                 hasCloseIcon: true,
                 hasDivider: true
             });
+        },
+        updateUserModelMeta() {
+            if (this.$route.meta.plain) return;
+            let meta = this.$store.state.meta;
+
+            if (meta.userModelInitialized == false) {
+                const self = this;
+                this.$api.get("/meta/model/user", {
+                    success(data) {
+                        self.$store.commit("setUserModel", data);
+                    }
+                });
+            }
         }
     },
     data() {
@@ -285,9 +285,9 @@ export default {
                             icon: "mdi mdi-swap-horizontal-bold"
                         },
                         {
-                            title:"运行结点管理",
+                            title: "运行结点管理",
                             key: "graph",
-                            icon:"mdi mdi-adjust",
+                            icon: "mdi mdi-adjust"
                         }
                     ]
                 },
@@ -324,6 +324,7 @@ export default {
     watch: {
         $route() {
             if (this.$route.name) this.$refs.menu.select(this.$route.name);
+            this.updateUserModelMeta();
         },
         siderFixed() {
             if (!this.siderFixed) this.headerFixed = false;
