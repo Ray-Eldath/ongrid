@@ -75,7 +75,7 @@
                 </div>
                 <div class="entry">
                     <div class="first">创建时间</div>
-                    <div class="second">{{ detailList.create_time }}</div>
+                    <div class="second">{{ prettify(detailList.create_time) }}</div>
                 </div>
                 <div
                     class="entry"
@@ -83,7 +83,7 @@
                 >
                     <div class="first">最后链接时间</div>
                     <div class="second">
-                        {{ detailList.last_connection_time }}
+                        {{ prettify(detailList.last_connection_time) }}
                     </div>
                 </div>
             </div>
@@ -176,10 +176,13 @@ export default {
         this.getDataList();
     },
     methods: {
+        prettify(time) {
+            return this.$dayjs(time).format("llll");
+        },
         detail(data) {
             this.detailStatus = true;
             let obj = {};
-            obj.create_time = data.create_time.replace("T", " ");
+            obj.create_time = data.create_time;
             obj.name = data.name;
             obj.id = data.id;
             this.detailList = obj;

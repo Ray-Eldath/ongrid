@@ -14,14 +14,7 @@
                 >删除</Button
             >
         </div>
-        <Table
-            :datas="datas"
-            stripe
-            checkbox
-            ref="tablec"
-            align="center"
-            @trclick="detaile()"
-        >
+        <Table :datas="datas" stripe checkbox ref="tablec" align="center">
             <TableItem title="路由">
                 <template slot-scope="{ data }">
                     <div class="primary-color">
@@ -48,18 +41,36 @@
 
                     <Modal v-model="detailStatus">
                         <div slot="header">详情</div>
-                        <div>
-                            <div>
-                                <p>来路由：{{ detailList.from }}</p>
+                        <div class="entry primary-color">
+                            <div class="first">路由</div>
+                            <div class="second">
+                                {{ detailList.from.name }}
+                                <i class="mdi mdi-swap-horizontal-bold"></i>
+                                {{ detailList.to.name }}
                             </div>
-                            <div>
-                                <p>去路由：{{ detailList.to }}</p>
+                        </div>
+                        <div class="ablist">
+                            <div class="entry">
+                                <div class="first">ID</div>
+                                <div class="second">{{ detailList.id }}</div>
                             </div>
-                            <div>
-                                <p>创建时间：{{ detailList.create_time }}</p>
+                            <div class="entry">
+                                <div class="first">路由状态</div>
+                                <div class="second">
+                                    {{
+                                        detailList.state == 0 ? "启用" : "禁用"
+                                    }}
+                                </div>
                             </div>
-                            <div>
-                                <p>状态：{{ detailList.state }}</p>
+                            <div class="entry">
+                                <div class="first">源ID</div>
+                                <div class="second">
+                                    {{ detailList.from.id }}
+                                </div>
+                            </div>
+                            <div class="entry">
+                                <div class="first">目标ID</div>
+                                <div class="second">{{ detailList.to.id }}</div>
                             </div>
                         </div>
                         <div slot="footer">
@@ -108,6 +119,20 @@
 </template>
 
 <style lang="sass" scoped>
+.ablist
+    margin-top: 1em
+    margin-bottom: 1em
+
+    .entry
+        .first
+            display: inline
+            margin-right: 1em
+
+        .second
+            float: right
+</style>
+
+<style lang="sass" scoped>
 .top-button 
     padding-left: 5px
     Button
@@ -135,7 +160,10 @@ export default {
             from: "",
             to: "",
             detailStatus: false,
-            detailList: {},
+            detailList: {
+                from: {},
+                to: {}
+            },
             valueFrom: "",
             valueTo: "",
             addStatus: false
@@ -146,12 +174,13 @@ export default {
     },
     methods: {
         detail(data) {
+            console.log(data);
             this.detailStatus = true;
             let obj = {};
-            obj.create_time = data.create_time.replace("T", " ");
-            obj.name = data.name;
             obj.id = data.id;
             obj.state = data.state;
+            obj.from = data.from;
+            obj.to = data.to;
             this.detailList = obj;
         },
         modalClose() {
@@ -179,26 +208,17 @@ export default {
             this.opened = false;
         },
         remove() {
-            this.$Confirm("确定删除？")
-                .then(() => {
-                    var selete = this.$refs.table.getSelection();
-                    console.log(selete);
-                    if (selete.length == 0) {
-                        this.$Message.error("未选中数据源");
-                    } else {
-                        that.deleteDataList(selete);
-                    }
-                })
+            this.$Confirm("确定删除？").then(() => {
+                var selete = this.$refs.table.getSelection();
+                console.log(selete);
+                if (selete.length == 0) {
+                    this.$Message.error("未选中数据源");
+                } else {
+                    that.deleteDataList(selete);
+                }
+            });
         },
-
-        detaile() {
-            // this.$Modal({
-            //     title: "路由详情",
-            //     content: "名字：  "
-            // });
-        },
-
-        //添加数据源
+        // 添加数据源
         add() {
             // datas.push({ id: 7, from: "from", to: 'to', age: 12, address: "然后添加的" });
             let valueFrom = this.valueFrom;
@@ -224,7 +244,6 @@ export default {
                 }
             );
         },
-
         onselect(data) {
             log(data);
         },
@@ -250,21 +269,6 @@ export default {
                 }
             });
         }
-        // updateDataList(data, value) {
-        //     let that = this
-        //     let url = "datasource/" + data[0].id
-        //     this.$api.patch(
-        //         url,
-        //         { name: value, postUrl: "https://github.com/Ray-Eldath/post_data" },
-        //         {
-        //             success(r) {
-        //                 that.$Message.success("修改成功！");
-        //                 that.value = ''
-        //                 that.getDataList()
-        //             }
-        //         }
-        //     );
-        // }
     }
 };
 </script>

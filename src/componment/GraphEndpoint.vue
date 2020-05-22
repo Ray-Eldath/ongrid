@@ -178,7 +178,7 @@ export default {
         detail(data) {
             this.detailStatus = true;
             let obj = {};
-            obj.create_time = data.create_time.replace("T", " ");
+            obj.create_time = data.create_time;
             obj.name = data.name;
             obj.id = data.id;
             this.detailList = obj;
